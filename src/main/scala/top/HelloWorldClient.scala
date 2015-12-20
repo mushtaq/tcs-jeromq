@@ -11,12 +11,12 @@ object HelloWorldClient extends App {
   socket.connect("tcp://localhost:5555")
 
   (1 to 10).foreach { requestNbr =>
-    val person = Person("mushtaq", 100, None, Seq.empty)
-    println(s"Sending $person $requestNbr")
+    val person = Person(s"mushtaq-$requestNbr", requestNbr, None, Seq.empty)
+    println(s"Sending $person")
     socket.send(person.toByteArray, 0)
     val reply = socket.recv(0)
     val updatedPerson = Person.parseFrom(reply)
-    println(s"Received $updatedPerson $requestNbr")
+    println(s"Received $updatedPerson")
   }
 
   socket.close()
