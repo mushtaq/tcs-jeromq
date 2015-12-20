@@ -1,9 +1,9 @@
-package top
+package top.requestreply
 
 import org.zeromq.ZMQ
 import sample.Person
 
-object HelloWorldClient extends App {
+object ReqRepClient extends App {
 
   val context = ZMQ.context(1)
   println("Connecting to PB server")
@@ -11,7 +11,7 @@ object HelloWorldClient extends App {
   socket.connect("tcp://localhost:5555")
 
   (1 to 10).foreach { requestNbr =>
-    val person = Person(s"mushtaq-$requestNbr", requestNbr, None, Seq.empty)
+    val person = Person(name = s"mushtaq-$requestNbr", id = requestNbr)
     println(s"Sending $person")
     socket.send(person.toByteArray, 0)
     val reply = socket.recv(0)

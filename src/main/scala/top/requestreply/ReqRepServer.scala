@@ -1,12 +1,12 @@
-package top
+package top.requestreply
 
 import org.zeromq.ZMQ
-import sample.Person
-import sample.Person.{PhoneType, PhoneNumber}
+import sample.{PhoneNumber, Person}
+import sample.PhoneNumber.PhoneType
 
-import scala.util.{Try, Random}
+import scala.util.{Random, Try}
 
-object HelloWorldServer extends App {
+object ReqRepServer extends App {
 
   val context = ZMQ.context(1)
   val socket = context.socket(ZMQ.REP)
