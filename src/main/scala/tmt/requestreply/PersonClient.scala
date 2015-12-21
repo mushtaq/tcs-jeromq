@@ -1,21 +1,27 @@
 package tmt.requestreply
 
-import org.zeromq.ZMQ
-import tmt.reactivemq.ZmqClient
 import sample.Person
-import scala.concurrent.ExecutionContext.Implicits.global
+import tmt.reactivemq.{ActorConfigs, ZmqClient}
+
 import scala.concurrent.Future
 
 object PersonClient extends App {
-  val context = ZMQ.context(1)
-  val client = new ZmqClient(context, "tcp://localhost:5555")
+
+  val default = ActorConfigs.create()
+  import default._
+
+  val client = new ZmqClient[Person, Person](
+    address = "tcp://localhost:5555",
+    responseParser = Person,
+    actorConfigs = default
+  )
 
   Future.traverse(1 to 10) {  requestNbr =>
     val person = Person(name = s"mushtaq-$requestNbr", id = requestNbr)
-    client.query(person, Person).map(x => println(s"Received $x"))
+    client.query(person).map(x => println(s"Received $x"))
   }.onComplete { x =>
     client.close()
-    context.term()
+    default.shutdown()
   }
 
 }

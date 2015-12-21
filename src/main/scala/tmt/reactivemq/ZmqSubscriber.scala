@@ -3,31 +3,37 @@ package tmt.reactivemq
 import akka.stream.scaladsl.Source
 import com.trueaccord.scalapb.GeneratedMessageCompanion
 import org.zeromq.ZMQ
-import org.zeromq.ZMQ.Context
 
 import scala.concurrent.Future
 
-class ZmqSubscriber(context: Context, address: String) {
-  val socket = context.socket(ZMQ.SUB)
+class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
+  address: String,
+  responseParser: GeneratedMessageCompanion[Msg],
+  actorConfigs: ActorConfigs
+) {
+
+  import actorConfigs._
+
+  private val socket = zmqContext.socket(ZMQ.SUB)
   println(s"Connecting to $address")
   socket.connect(address)
   socket.subscribe(Array.empty)
 
-  val ec = EC.singleThreadedEc()
+  private val ec = EC.singleThreadedEc()
 
-  def stream[Resp <: PbMessage.Of[Resp]](responseParser: GeneratedMessageCompanion[Resp]) = {
+  val stream = {
     Source
       .repeat(())
       .mapAsync(1)(_ => receive())
       .map(bytes => responseParser.parseFrom(bytes))
   }
 
-  def receive() = Future {
+  private def receive() = Future {
     socket.recv(0)
   }(ec)
 
   def stop(): Unit = {
     socket.close()
+    ec.shutdown()
   }
-
 }

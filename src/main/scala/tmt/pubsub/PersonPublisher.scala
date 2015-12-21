@@ -1,15 +1,18 @@
 package tmt.pubsub
 
 import akka.stream.scaladsl.Source
-import org.zeromq.ZMQ
-import tmt.reactivemq.ZmqPublisher
 import sample.Person
-import scala.concurrent.ExecutionContext.Implicits.global
+import tmt.reactivemq.{ActorConfigs, ZmqPublisher}
 
 object PersonPublisher extends App {
 
-  val context = ZMQ.context(1)
-  val publisher = new ZmqPublisher(context, "tcp://*:5555")
+  val default = ActorConfigs.create()
+  import default._
+
+  val publisher = new ZmqPublisher[Person](
+    address = "tcp://*:5555",
+    actorConfigs = default
+  )
 
   val numbers = Source(() => Iterator.from(1))
   val people = numbers.map(i => Person(name = s"mushtaq-$i", id = i))
@@ -17,7 +20,8 @@ object PersonPublisher extends App {
   publisher
     .publish(people)
     .onComplete { x =>
-      context.term()
+      publisher.stop()
+      default.shutdown()
     }
 
 }
