@@ -1,22 +1,26 @@
 package top.pubsub
 
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
 import org.zeromq.ZMQ
+import reactivemq.ZmqSubscriber
 import sample.Person
 
 object PersonSubscriber extends App {
 
   val context = ZMQ.context(1)
-  println("Connecting to publisher")
-  val socket = context.socket(ZMQ.SUB)
-  socket.connect("tcp://localhost:5555")
-  socket.subscribe(Array.empty)
+  val subscriber = new ZmqSubscriber(context, "tcp://localhost:5555")
 
-  (1 to 100).foreach { requestNbr =>
-    val message = socket.recv(0)
-    val person = Person.parseFrom(message)
-    println(s"Received $person")
+  implicit val system = ActorSystem()
+  implicit val mat = ActorMaterializer()
+  implicit val ec = system.dispatcher
+
+  subscriber.stream(Person).take(100).runForeach { x =>
+    println(s"Received $x")
+  }.onComplete { x =>
+    println(s"completed with value: $x")
+    subscriber.stop()
+    context.term()
+    system.shutdown()
   }
-
-  socket.close()
-  context.term()
 }

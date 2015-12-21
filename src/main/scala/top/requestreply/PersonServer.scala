@@ -4,6 +4,7 @@ import org.zeromq.ZMQ
 import reactivemq.ZmqServer
 import sample.{PhoneNumber, Person}
 import sample.PhoneNumber.PhoneType
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.util.{Random, Try}
 
@@ -17,8 +18,7 @@ object PersonServer extends App {
     val maybePhoneType = Try(PhoneType.values(Random.nextInt(4))).toOption
     val phoneNumber = PhoneNumber(number, maybePhoneType)
     person.addPhone(phoneNumber)
+  }.onComplete { x =>
+    context.term()
   }
-
-  server.stop()
-  context.term()
 }

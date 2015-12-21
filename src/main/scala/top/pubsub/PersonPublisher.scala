@@ -1,24 +1,23 @@
 package top.pubsub
 
+import akka.stream.scaladsl.Source
 import org.zeromq.ZMQ
+import reactivemq.ZmqPublisher
 import sample.Person
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object PersonPublisher extends App {
 
   val context = ZMQ.context(1)
-  val socket = context.socket(ZMQ.PUB)
-  socket.bind("tcp://*:5555")
+  val publisher = new ZmqPublisher(context, "tcp://*:5555")
 
-  var requestNbr = 0
+  val numbers = Source(() => Iterator.from(1))
+  val people = numbers.map(i => Person(name = s"mushtaq-$i", id = i))
 
-  while (!Thread.currentThread.isInterrupted) {
-    val person = Person(name = "mushtaq", id = requestNbr)
-    println(s"Publishing: [$person]")
-    socket.send(person.toByteArray, 0)
-    requestNbr += 1
-    Thread.sleep(100)
-  }
+  publisher
+    .publish(people)
+    .onComplete { x =>
+      context.term()
+    }
 
-  socket.close()
-  context.term()
 }
