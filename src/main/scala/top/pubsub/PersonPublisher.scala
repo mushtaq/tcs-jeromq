@@ -3,7 +3,7 @@ package top.pubsub
 import org.zeromq.ZMQ
 import sample.Person
 
-object PubSubServer extends App {
+object PersonPublisher extends App {
 
   val context = ZMQ.context(1)
   val socket = context.socket(ZMQ.PUB)

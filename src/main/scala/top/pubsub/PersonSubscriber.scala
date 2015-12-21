@@ -3,7 +3,7 @@ package top.pubsub
 import org.zeromq.ZMQ
 import sample.Person
 
-object PubSubClient extends App {
+object PersonSubscriber extends App {
 
   val context = ZMQ.context(1)
   println("Connecting to publisher")
