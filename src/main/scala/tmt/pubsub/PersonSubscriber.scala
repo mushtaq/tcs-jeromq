@@ -1,9 +1,9 @@
-package top.pubsub
+package tmt.pubsub
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import org.zeromq.ZMQ
-import reactivemq.ZmqSubscriber
+import tmt.reactivemq.ZmqSubscriber
 import sample.Person
 
 object PersonSubscriber extends App {

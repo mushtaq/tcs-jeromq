@@ -1,4 +1,4 @@
-package reactivemq
+package tmt.reactivemq
 
 import com.trueaccord.scalapb.{GeneratedMessageCompanion, Message, GeneratedMessage}
 import org.zeromq.ZMQ

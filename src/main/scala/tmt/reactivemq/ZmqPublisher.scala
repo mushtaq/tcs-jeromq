@@ -1,4 +1,4 @@
-package reactivemq
+package tmt.reactivemq
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer

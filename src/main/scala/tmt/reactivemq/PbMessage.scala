@@ -1,4 +1,4 @@
-package reactivemq
+package tmt.reactivemq
 
 import com.trueaccord.scalapb.{Message, GeneratedMessage}
 

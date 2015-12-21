@@ -1,4 +1,4 @@
-package reactivemq
+package tmt.reactivemq
 
 import java.util.concurrent.Executors
 
