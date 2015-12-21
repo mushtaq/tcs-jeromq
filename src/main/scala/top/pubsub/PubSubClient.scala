@@ -1,7 +1,7 @@
 package top.pubsub
 
 import org.zeromq.ZMQ
-import sample.{MessageType, Person}
+import sample.Person
 
 object PubSubClient extends App {
 
