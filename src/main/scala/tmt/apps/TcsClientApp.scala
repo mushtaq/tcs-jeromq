@@ -1,20 +1,20 @@
 package tmt.apps
 
 import sample.{Car, Person}
-import tmt.reactivemq.{ActorConfigs, TcsClient, ZmqClient}
+import tmt.reactivemq.{ActorRuntime, TcsClient, ZmqClient}
 
 object TcsClientApp extends App {
 
-  val default = ActorConfigs.create()
+  val runtime = ActorRuntime.create()
 
-  import default._
+  import runtime._
 
   val zmqClient = new ZmqClient(
     address = "tcp://localhost:5555",
-    actorConfigs = default
+    runtime = runtime
   )
 
-  private val tcsClient = new TcsClient(zmqClient)
+  val tcsClient = new TcsClient(zmqClient)
 
   (1 to 10).foreach { requestNbr =>
     val person = Person(name = s"mushtaq-$requestNbr", id = requestNbr)
@@ -27,7 +27,7 @@ object TcsClientApp extends App {
   }
 
   Thread.sleep(10000)
-  zmqClient.close()
-  default.shutdown()
+  zmqClient.shutdown()
+  runtime.shutdown()
 
 }

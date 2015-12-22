@@ -1,25 +1,24 @@
 package tmt.apps
 
 import sample.Person
-import tmt.reactivemq.{ActorConfigs, ZmqSubscriber}
+import tmt.reactivemq.{ActorRuntime, ZmqSubscriber}
 
 object PersonSubscriberApp extends App {
 
-  val default = ActorConfigs.create()
-  import default._
+  val runtime = ActorRuntime.create()
+  import runtime._
 
   val subscriber = new ZmqSubscriber[Person](
     address = "tcp://localhost:5555",
     responseParser = Person,
-    actorConfigs = default
+    runtime = runtime
   )
 
-
-  subscriber.stream.take(100).runForeach { x =>
+  subscriber.stream.runForeach { x =>
     println(s"Received $x")
   }.onComplete { x =>
     println(s"completed with value: $x")
-    subscriber.stop()
-    default.shutdown()
+    subscriber.shutdown()
+    runtime.shutdown()
   }
 }

@@ -9,10 +9,10 @@ import scala.concurrent.Future
 class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
   address: String,
   responseParser: GeneratedMessageCompanion[Msg],
-  actorConfigs: ActorConfigs
+  runtime: ActorRuntime
 ) {
 
-  import actorConfigs._
+  import runtime._
 
   private val socket = zmqContext.socket(ZMQ.SUB)
   println(s"Connecting to $address")
@@ -32,7 +32,7 @@ class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
     socket.recv(0)
   }(ec)
 
-  def stop(): Unit = {
+  def shutdown(): Unit = {
     socket.close()
     ec.shutdown()
   }

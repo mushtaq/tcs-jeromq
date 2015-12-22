@@ -8,9 +8,9 @@ import scala.concurrent.ExecutionContext.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-class ZmqServer(address: String, actorConfigs: ActorConfigs) {
+class ZmqServer(address: String, runtime: ActorRuntime) {
 
-  import actorConfigs._
+  import runtime._
 
   private val socket = zmqContext.socket(ZMQ.REP)
   socket.bind(address)
@@ -35,7 +35,7 @@ class ZmqServer(address: String, actorConfigs: ActorConfigs) {
     println(s"completed with value: $x")
   }(global)
 
-  def stop(): Unit = {
+  def shutdown(): Unit = {
     socket.close()
     ec.shutdown()
   }

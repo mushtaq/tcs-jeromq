@@ -2,26 +2,25 @@ package tmt.apps
 
 import akka.stream.scaladsl.Source
 import sample.Person
-import tmt.reactivemq.{ActorConfigs, ZmqPublisher}
+import tmt.reactivemq.{ActorRuntime, ZmqPublisher}
 
 object PersonPublisherApp extends App {
 
-  val default = ActorConfigs.create()
-  import default._
+  val runtime = ActorRuntime.create()
+  import runtime._
 
   val publisher = new ZmqPublisher[Person](
     address = "tcp://*:5555",
-    actorConfigs = default
+    runtime = runtime
   )
 
-  val numbers = Source(() => Iterator.from(1))
-  val people = numbers.map(i => Person(name = s"mushtaq-$i", id = i))
+  val people = Source(1 to 100).map(i => Person(name = s"mushtaq-$i", id = i))
 
   publisher
     .publish(people)
     .onComplete { x =>
-      publisher.stop()
-      default.shutdown()
+      publisher.shutdown()
+      runtime.shutdown()
     }
 
 }

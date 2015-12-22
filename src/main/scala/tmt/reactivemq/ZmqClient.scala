@@ -5,9 +5,9 @@ import org.zeromq.ZMQ
 
 import scala.concurrent.Future
 
-class ZmqClient(address: String, actorConfigs: ActorConfigs ) {
+class ZmqClient(address: String, runtime: ActorRuntime ) {
 
-  import actorConfigs._
+  import runtime._
 
   private val socket = zmqContext.socket(ZMQ.REQ)
   println(s"Connecting to server $address")
@@ -23,7 +23,7 @@ class ZmqClient(address: String, actorConfigs: ActorConfigs ) {
     responseParser.parseFrom(socket.recv(0))
   }(ec)
 
-  def close(): Unit = {
+  def shutdown(): Unit = {
     socket.close()
     ec.shutdown()
   }

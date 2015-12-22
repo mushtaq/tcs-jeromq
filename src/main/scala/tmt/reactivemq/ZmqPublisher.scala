@@ -8,10 +8,10 @@ import scala.concurrent.Future
 
 class ZmqPublisher[Msg <: GeneratedMessage](
   address: String,
-  actorConfigs: ActorConfigs
+  runtime: ActorRuntime
 ) {
 
-  import actorConfigs._
+  import runtime._
 
   private val socket = zmqContext.socket(ZMQ.PUB)
   socket.bind(address)
@@ -33,7 +33,7 @@ class ZmqPublisher[Msg <: GeneratedMessage](
     socket.send(message.toByteArray, 0)
   }(ec)
 
-  def stop(): Unit = {
+  def shutdown(): Unit = {
     socket.close()
     ec.shutdown()
   }
