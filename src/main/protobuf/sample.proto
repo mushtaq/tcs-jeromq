@@ -15,3 +15,20 @@ message PhoneNumber {
         WORK = 2;
     }
 }
+
+message Car {
+    required string company = 1;
+    required string model = 2;
+    repeated int64 service_timestamps = 3;
+}
+
+message Command {
+    oneof msg {
+        Person update_person = 1;
+        Car service_car = 2;
+    }
+}
+
+message ErrorMsg {
+    required string description = 1;
+}

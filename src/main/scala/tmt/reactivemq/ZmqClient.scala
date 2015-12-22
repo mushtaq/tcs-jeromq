@@ -5,11 +5,7 @@ import org.zeromq.ZMQ
 
 import scala.concurrent.Future
 
-class ZmqClient[Req <: GeneratedMessage, Res <: PbMessage.Of[Res]](
-  address: String,
-  responseParser: GeneratedMessageCompanion[Res],
-  actorConfigs: ActorConfigs
-) {
+class ZmqClient(address: String, actorConfigs: ActorConfigs ) {
 
   import actorConfigs._
 
@@ -18,7 +14,10 @@ class ZmqClient[Req <: GeneratedMessage, Res <: PbMessage.Of[Res]](
   socket.connect(address)
   private val ec = EC.singleThreadedEc()
 
-  def query(request: Req): Future[Res] = Future {
+  def query[Req <: GeneratedMessage, Res <: PbMessage.Of[Res]](
+    request: Req,
+    responseParser: GeneratedMessageCompanion[Res]
+  ): Future[Res] = Future {
     println(s"Sending $request")
     socket.send(request.toByteArray, 0)
     responseParser.parseFrom(socket.recv(0))

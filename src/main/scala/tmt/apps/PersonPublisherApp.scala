@@ -1,10 +1,10 @@
-package tmt.pubsub
+package tmt.apps
 
 import akka.stream.scaladsl.Source
 import sample.Person
 import tmt.reactivemq.{ActorConfigs, ZmqPublisher}
 
-object PersonPublisher extends App {
+object PersonPublisherApp extends App {
 
   val default = ActorConfigs.create()
   import default._

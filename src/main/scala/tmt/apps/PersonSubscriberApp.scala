@@ -1,9 +1,9 @@
-package tmt.pubsub
+package tmt.apps
 
 import sample.Person
 import tmt.reactivemq.{ActorConfigs, ZmqSubscriber}
 
-object PersonSubscriber extends App {
+object PersonSubscriberApp extends App {
 
   val default = ActorConfigs.create()
   import default._

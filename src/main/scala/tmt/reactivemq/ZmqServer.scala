@@ -1,15 +1,14 @@
 package tmt.reactivemq
 
-import com.trueaccord.scalapb.{GeneratedMessage, GeneratedMessageCompanion}
+import com.trueaccord.scalapb.GeneratedMessage
 import org.zeromq.ZMQ
+import sample.{ErrorMsg, Command}
+
 import scala.concurrent.ExecutionContext.global
 import scala.concurrent.Future
+import scala.util.control.NonFatal
 
-class ZmqServer[Req <: PbMessage.Of[Req], Res <: GeneratedMessage](
-  address: String,
-  requestParser: GeneratedMessageCompanion[Req],
-  actorConfigs: ActorConfigs
-) {
+class ZmqServer(address: String, actorConfigs: ActorConfigs) {
 
   import actorConfigs._
 
@@ -17,13 +16,20 @@ class ZmqServer[Req <: PbMessage.Of[Req], Res <: GeneratedMessage](
   socket.bind(address)
   private val ec = EC.singleThreadedEc()
 
-  def start(f: Req => Res): Future[Unit] = Future {
+  def start(f: Command.Msg => GeneratedMessage): Future[Unit] = Future {
     while (true) {
-      val message = socket.recv(0)
-      val request = requestParser.parseFrom(message)
-      println(s"Received : [$request]")
-      Thread.sleep(100)
-      socket.send(f(request).toByteArray, 0)
+      try {
+        val message = socket.recv(0)
+        val command = Command.parseFrom(message)
+        println(s"Received : [$command]")
+        Thread.sleep(100)
+        socket.send(f(command.msg).toByteArray, 0)
+      } catch {
+        case NonFatal(ex) =>
+          ex.printStackTrace()
+          socket.send(ErrorMsg("11").toByteArray, 0)
+      }
+
     }
   }(ec).map { x =>
     println(s"completed with value: $x")
