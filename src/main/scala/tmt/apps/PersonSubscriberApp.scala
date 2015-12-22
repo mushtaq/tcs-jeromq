@@ -1,7 +1,8 @@
 package tmt.apps
 
 import sample.Person
-import tmt.reactivemq.{ActorRuntime, ZmqSubscriber}
+import tmt.reactivemq.ZmqSubscriber
+import tmt.utils.ActorRuntime
 
 object PersonSubscriberApp extends App {
 

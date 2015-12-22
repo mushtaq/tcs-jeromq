@@ -2,7 +2,8 @@ package tmt.apps
 
 import akka.stream.scaladsl.Source
 import sample.Person
-import tmt.reactivemq.{ActorRuntime, ZmqPublisher}
+import tmt.reactivemq.ZmqPublisher
+import tmt.utils.ActorRuntime
 
 object PersonPublisherApp extends App {
 

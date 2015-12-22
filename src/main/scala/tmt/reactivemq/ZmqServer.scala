@@ -3,6 +3,7 @@ package tmt.reactivemq
 import com.trueaccord.scalapb.GeneratedMessage
 import org.zeromq.ZMQ
 import sample.{ErrorMsg, Command}
+import tmt.utils.{EC, ActorRuntime}
 
 import scala.concurrent.ExecutionContext.global
 import scala.concurrent.Future

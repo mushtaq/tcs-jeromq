@@ -2,6 +2,7 @@ package tmt.reactivemq
 
 import com.trueaccord.scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 import org.zeromq.ZMQ
+import tmt.utils.{PbMessage, EC, ActorRuntime}
 
 import scala.concurrent.Future
 

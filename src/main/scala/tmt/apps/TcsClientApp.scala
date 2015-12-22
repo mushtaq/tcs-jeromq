@@ -1,7 +1,8 @@
 package tmt.apps
 
 import sample.{Car, Person}
-import tmt.reactivemq.{ActorRuntime, TcsClient, ZmqClient}
+import tmt.reactivemq.{TcsClient, ZmqClient}
+import tmt.utils.ActorRuntime
 
 object TcsClientApp extends App {
 

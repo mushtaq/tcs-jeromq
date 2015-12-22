@@ -3,6 +3,7 @@ package tmt.reactivemq
 import akka.stream.scaladsl.{Sink, Source}
 import com.trueaccord.scalapb.GeneratedMessage
 import org.zeromq.ZMQ
+import tmt.utils.{EC, ActorRuntime}
 
 import scala.concurrent.Future
 

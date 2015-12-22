@@ -3,7 +3,8 @@ package tmt.apps
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType
 import sample._
-import tmt.reactivemq.{ActorRuntime, ZmqServer}
+import tmt.reactivemq.ZmqServer
+import tmt.utils.ActorRuntime
 
 import scala.util.{Random, Try}
 
