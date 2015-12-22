@@ -2,12 +2,15 @@ package tmt.apps
 
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType
-import sample.{ErrorMsg, PhoneNumber}
+import sample._
 import tmt.reactivemq.{ActorConfigs, ZmqServer}
 
 import scala.util.{Random, Try}
 
 object TcsServerApp extends App {
+
+//  println(B.parseFrom(A("hello", 100).toByteArray)) // B(0, "")
+//  println(A.parseFrom(B(100, "hello").toByteArray)) // A("", 0)
 
   val default = ActorConfigs.create()
 

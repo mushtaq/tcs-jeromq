@@ -32,3 +32,13 @@ message Command {
 message ErrorMsg {
     required string description = 1;
 }
+
+message A {
+    required string a = 1;
+    required int32 b = 2;
+}
+
+message B {
+    required int32 b = 1;
+    required string a = 2;
+}
