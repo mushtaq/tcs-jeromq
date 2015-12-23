@@ -1,0 +1,230 @@
+// Protocol Buffers description of the TCS-STR MCS ICD based on TMT.CTR.ICD.13.002.DRF07
+// This will need to be updated once the ICD is finalized
+
+message Tcs_Command {
+	oneof msg {
+        Transition tcs_mcs_Lifecycle = 1;
+        Empty tcs_mcs_CancelProcessing = 2;
+        Empty tcs_mcs_ReadConfiguration = 3;
+        PinDirection tcs_mcs_ElStowPinMove = 4;
+        Axes tcs_mcs_AxisOn = 5;
+        Axes tcs_mcs_AxisOff = 6;
+        Axes tcs_mcs_Datum = 7;
+        Axes tcs_mcs_Follow = 8;
+        Axes tcs_mcs_ServoOff = 9;
+        Axes tcs_mcs_Halt = 10;
+        Empty tcs_mcs_StartLogging = 16;
+        Empty tcs_mcs_StopLogging = 17;
+    }
+}
+
+
+// TMT timestamp
+message Timestamp {
+	required double time = 1;
+}
+
+// This section is TCS to MCS commands and the command response
+message command_response {
+
+	enum ErrorState {
+		OK = 0;
+		ERROR = 1;
+	}
+
+	required ErrorState error_state = 1;
+	required string error_info = 2;
+	required Timestamp time = 3;  // Need to think about this
+}
+
+enum Transition {
+    SYSTEMOFF = 0;
+    REBOOT = 1;
+    INIT = 2;
+    STARTUP = 3;
+    SHUTDOWN = 4;
+    UNINIT = 5;
+}
+
+// Following used in status
+
+enum LifecycleState {
+	READY = 0;
+	LOADED = 1;
+	INITIALIZED = 2;
+	RUNNING = 3;
+}
+
+// Type for selecting one or both axes 
+enum Axes {
+	AZ = 0;
+	EL = 1;
+	BOTH = 2;
+}
+
+// Type for selecting direction of stow pin
+enum PinDirection {
+	In = 0;
+	Out = 1;
+}
+
+message FloatArray {
+	repeated float values = 1 [packed=true];
+}
+
+enum Bool {
+	FALSE = 0;
+	TRUE = 1;
+}
+
+message BooleanArray {
+	repeated Bool values = 1 [packed=true];
+}
+
+// This is signed 32 bit int
+message SInt32Array {
+	repeated sint32 values = 1 [packed=true];
+}
+
+message Empty {}
+
+
+// This section is TCS to MCS Events
+
+// Position Demand Event
+// Publish rate: 100 Hz
+// [INT-TCS-STR-0250]
+message tcs_mcs_PositionDemand {
+    required double az = 1;
+    required double el = 2;
+    required Timestamp time = 3;
+}
+
+// This section is MCS to TCS Events
+
+// MCS Health Event
+// [INT-TCS-STR-0270]
+message mcs_Health {
+    enum Health {
+        GOOD = 0;
+        ILL = 1;
+        BAD = 2;
+        INTERLOCKED = 3;
+        UNKNWON = 4;
+    }
+
+    required Health health = 1;
+    optional string reason = 2;
+
+    required Bool simulated = 3;
+    required Timestamp time = 4;
+}
+
+// MCS Alarm Event
+// [INT-TCS-STR-0280]
+message mcs_Alarm {
+    enum Severity {
+        MINOR = 0;
+        MAJOR = 1;
+    }
+
+    required Severity severity = 1;
+    required string reason = 2;
+    required Bool simulated = 3;
+    required Timestamp time = 4;
+}
+
+// MCS Drive Status Event
+// [INT-TCS-STR-0290]
+// Publish rate: 1 Hz
+
+message mcs_DriveStatus {
+
+    required Bool processing = 1;
+    required LifecycleState lifecycle = 2;
+
+    enum OperationalState {
+        SHUTDOWN = 0;
+        DRIVEPOWERON = 1;
+        DATUMED = 3;
+        FOLLOWING = 4;
+    }
+
+    required OperationalState azState = 3;
+    required OperationalState elState = 4;
+
+    required FloatArray azTemps = 5;
+    required FloatArray elTemps = 6;
+
+    required BooleanArray azLimits = 7;
+    required BooleanArray elLimits = 8;
+
+    required Bool mcsDiagEnabled = 9;
+
+    required Timestamp time = 11;
+}
+
+// MCS Current Position Event
+// [INT-TCS-STR-0300]
+// Publish rate =100 Hz
+message mcs_CurrentPosition {
+    required Bool inposition = 1;
+
+    required double az_pos = 2;
+    required double az_pos_demand = 3;
+    required double az_pos_error = 4;
+    required Bool az_inposition = 5;
+
+    required double el_pos = 6;
+    required double el_pos_demand = 7;
+    required double el_pos_error = 8;
+    required Bool el_inposition = 9;
+
+    required Timestamp encoder_latching_time = 10;
+    required int32 az_pos_dmd_errcnt = 11;
+    required int32 el_pos_dmd_errcnt = 12;
+
+    required Timestamp time = 13;
+}
+
+// MCS Diagnostic Event - Section 3.4.12
+
+message mcs_mountControlDiags {
+    required Bool inposition = 1;
+    required Bool az_inposition = 2;
+    required Bool el_inposition = 3;
+
+    required FloatArray az_drivecurrents = 4;
+    required FloatArray el_drivecurrents = 5;
+
+    required double az_pos = 6;
+    required double el_pos = 7;
+
+    required double az_pos_demand = 8;
+    required double el_pos_demand = 9;
+
+    required double az_pos_error = 10;
+    required double el_pos_error = 11;
+
+    // Different starting here
+    required double az_velocity = 12;
+    required double el_velocity = 13;
+
+    required double az_velocity_demand = 14;
+    required double el_velocity_demand = 15;
+
+    required double az_velocity_error = 16;
+    required double el_velocity_error = 17;
+
+    required double az_acceleration = 18;
+    required double el_acceleration = 19;
+
+    required double az_torque_demand = 20;
+    required double el_torque_demand = 21;
+
+    required SInt32Array az_encoder_positions = 22;
+    required SInt32Array el_encoder_positions = 23;
+
+    // Some space for others?
+    required Timestamp time = 30;
+}
