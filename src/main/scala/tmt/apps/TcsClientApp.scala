@@ -27,7 +27,7 @@ object TcsClientApp extends App {
     tcsClient.service(car).foreach(p => println(s"received: $p"))
   }
 
-  Thread.sleep(10000)
+  Thread.sleep(100000)
   zmqClient.shutdown()
   runtime.shutdown()
 
