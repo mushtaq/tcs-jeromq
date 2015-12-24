@@ -22,16 +22,18 @@ object PersonCarServerApp extends App {
     runtime = runtime
   )
 
-  server.start(Command) {
-    case Command(UpdatePerson(person)) =>
-      val number = Random.nextInt(10000).toString
-      val maybePhoneType = Try(PhoneType.values(Random.nextInt(4))).toOption
-      val phoneNumber = PhoneNumber(number, maybePhoneType)
-      person.addPhone(phoneNumber)
-    case Command(ServiceCar(car))      =>
-      car.addServiceTimestamps(System.currentTimeMillis())
-    case Command(Empty)                =>
-      ErrorMsg("something has gone wrong")
+  server.start(Command) { command =>
+    command.msg match {
+      case UpdatePerson(person) =>
+        val number = Random.nextInt(10000).toString
+        val maybePhoneType = Try(PhoneType.values(Random.nextInt(4))).toOption
+        val phoneNumber = PhoneNumber(number, maybePhoneType)
+        person.addPhone(phoneNumber)
+      case ServiceCar(car)      =>
+        car.addServiceTimestamps(System.currentTimeMillis())
+      case Empty                =>
+        ErrorMsg("something has gone wrong")
+    }
   }.onComplete { x =>
     server.shutdown()
     runtime.shutdown()

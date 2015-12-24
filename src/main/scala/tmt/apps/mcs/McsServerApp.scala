@@ -17,21 +17,22 @@ object McsServerApp extends App {
     runtime = runtime
   )
 
-  server.start(Tcs_Command) {
-    case Tcs_Command(TcsMcsLifecycle(Transition.STARTUP)) =>
-      println("done!!!!")
-      command_response(
-        ErrorState.OK,
-        "",
-        Timestamp(System.currentTimeMillis())
-      )
-    case _                                        =>
-      command_response(
-        ErrorState.ERROR,
-        "something has gone wrong",
-        Timestamp(System.currentTimeMillis())
-      )
-
+  server.start(Tcs_Command) { command =>
+    command.msg match {
+      case TcsMcsLifecycle(Transition.STARTUP) =>
+        println("done!!!!")
+        command_response(
+          ErrorState.OK,
+          "",
+          Timestamp(System.currentTimeMillis())
+        )
+      case _                                   =>
+        command_response(
+          ErrorState.ERROR,
+          "something has gone wrong",
+          Timestamp(System.currentTimeMillis())
+        )
+    }
   }.onComplete { x =>
     server.shutdown()
     runtime.shutdown()
