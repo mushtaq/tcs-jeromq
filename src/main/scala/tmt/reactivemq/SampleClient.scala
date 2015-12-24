@@ -5,7 +5,7 @@ import sample.{Command, Car, Person}
 
 import scala.concurrent.Future
 
-class TcsClient(zmqClient: ZmqClient) {
+class SampleClient(zmqClient: ZmqClient) {
 
   def update(person: Person): Future[Person] = {
     val command = Command().withMsg(UpdatePerson(person))

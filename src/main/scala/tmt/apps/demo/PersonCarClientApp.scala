@@ -1,7 +1,7 @@
 package tmt.apps.demo
 
 import sample.{Car, Person}
-import tmt.reactivemq.{TcsClient, ZmqClient}
+import tmt.reactivemq.{SampleClient, ZmqClient}
 import tmt.utils.ActorRuntime
 
 object PersonCarClientApp extends App {
@@ -15,16 +15,16 @@ object PersonCarClientApp extends App {
     runtime = runtime
   )
 
-  val tcsClient = new TcsClient(zmqClient)
+  val sampleClient = new SampleClient(zmqClient)
 
   (1 to 10).foreach { requestNbr =>
     val person = Person(name = s"mushtaq-$requestNbr", id = requestNbr)
-    tcsClient.update(person).foreach(p => println(s"received: $p"))
+    sampleClient.update(person).foreach(p => println(s"received: $p"))
   }
 
   (1 to 10).foreach { requestNbr =>
     val car = Car("Nissan", "Micra")
-    tcsClient.service(car).foreach(p => println(s"received: $p"))
+    sampleClient.service(car).foreach(p => println(s"received: $p"))
   }
 
   Thread.sleep(100000)
