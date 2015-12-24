@@ -6,7 +6,7 @@ import tmt.reactivemq.ZmqClient
 
 class McsClient(zmqClient: ZmqClient) {
 
-  def changeState(transition: Transition) = {
+  def lifecycle(transition: Transition) = {
     val command = Tcs_Command(TcsMcsLifecycle(transition))
     zmqClient.query(command, command_response)
   }

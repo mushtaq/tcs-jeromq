@@ -17,8 +17,8 @@ object McsHcdApp extends App {
 
   val mcsClient = new McsClient(zmqClient)
 
-  mcsClient.changeState(Transition.STARTUP).onComplete(x => println(s"result is: $x"))
-  mcsClient.changeState(Transition.REBOOT).onComplete(x => println(s"result is: $x"))
+  mcsClient.lifecycle(Transition.STARTUP).onComplete(x => println(s"result is: $x"))
+  mcsClient.lifecycle(Transition.REBOOT).onComplete(x => println(s"result is: $x"))
 
 
   Thread.sleep(100000)
