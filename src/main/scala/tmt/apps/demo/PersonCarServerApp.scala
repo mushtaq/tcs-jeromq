@@ -1,4 +1,4 @@
-package tmt.apps
+package tmt.apps.demo
 
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType
@@ -8,7 +8,7 @@ import tmt.utils.ActorRuntime
 
 import scala.util.{Random, Try}
 
-object TcsServerApp extends App {
+object PersonCarServerApp extends App {
 
 //  println(B.parseFrom(A("hello", 100).toByteArray)) // B(0, "")
 //  println(A.parseFrom(B(100, "hello").toByteArray)) // A("", 0)
@@ -22,15 +22,15 @@ object TcsServerApp extends App {
     runtime = runtime
   )
 
-  server.start {
-    case UpdatePerson(person) =>
+  server.start(Command) {
+    case Command(UpdatePerson(person)) =>
       val number = Random.nextInt(10000).toString
       val maybePhoneType = Try(PhoneType.values(Random.nextInt(4))).toOption
       val phoneNumber = PhoneNumber(number, maybePhoneType)
       person.addPhone(phoneNumber)
-    case ServiceCar(car)      =>
+    case Command(ServiceCar(car))      =>
       car.addServiceTimestamps(System.currentTimeMillis())
-    case Empty                =>
+    case Command(Empty)                =>
       ErrorMsg("something has gone wrong")
   }.onComplete { x =>
     server.shutdown()

@@ -1,4 +1,4 @@
-package tmt.apps
+package tmt.apps.demo
 
 import akka.stream.scaladsl.Source
 import sample.Person

@@ -1,4 +1,4 @@
-package tmt.apps
+package tmt.apps.demo
 
 import sample.Person
 import tmt.reactivemq.ZmqSubscriber

@@ -1,10 +1,10 @@
-package tmt.apps
+package tmt.apps.demo
 
 import sample.{Car, Person}
 import tmt.reactivemq.{TcsClient, ZmqClient}
 import tmt.utils.ActorRuntime
 
-object TcsClientApp extends App {
+object PersonCarClientApp extends App {
 
   val runtime = ActorRuntime.create()
 
