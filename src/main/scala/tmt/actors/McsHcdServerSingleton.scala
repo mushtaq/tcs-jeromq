@@ -14,7 +14,7 @@ class McsHcdServerSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
     ClusterSingletonManager.props(
       singletonProps = Props(new McsHcdServer(zmqClient)),
       terminationMessage = PoisonPill,
-      settings = ClusterSingletonManagerSettings(system)
+      settings = ClusterSingletonManagerSettings(system).withRole(Names.HcdServer)
     ),
     name = Names.HcdServer
   )
@@ -22,7 +22,7 @@ class McsHcdServerSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
   lazy val proxy = system.actorOf(
     ClusterSingletonProxy.props(
       singletonManagerPath = s"/user/${Names.HcdServer}",
-      settings = ClusterSingletonProxySettings(system)
+      settings = ClusterSingletonProxySettings(system).withRole(Names.HcdServer)
     ),
     name = "hcdServerProxy"
   )

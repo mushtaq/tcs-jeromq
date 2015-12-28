@@ -1,10 +1,9 @@
 package tmt.library
 
-import java.net.InetAddress
-
 import com.typesafe.config._
 import tmt.app.Params
 import tmt.library.ConfigObjectExtensions.RichConfig
+import collection.JavaConverters._
 
 class ConfigLoader {
 
@@ -16,6 +15,7 @@ class ConfigLoader {
     val bindingConfig = ConfigFactory.empty()
       .withPair("hostname", privateIp)
       .withPair("port", Integer.valueOf(params.port))
+      .withPair("roles", params.roles.asJava)
 
     val binding = ConfigFactory.empty().withValue("binding", bindingConfig.root())
 
