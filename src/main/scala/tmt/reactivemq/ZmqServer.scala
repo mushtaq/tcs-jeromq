@@ -27,7 +27,7 @@ class ZmqServer(settings: AppSettings, runtime: ActorRuntime) {
       try {
         val message = socket.recv(0)
         val request = reqParser.parseFrom(message)
-        println(s"Received : [$request]")
+        println(s"***** ZmqSever received : [$request]")
         Thread.sleep(100)
         socket.send(f(request).toByteArray, 0)
       } catch {

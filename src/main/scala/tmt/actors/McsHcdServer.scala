@@ -11,6 +11,7 @@ class McsHcdServer(zmqClient: ZmqClient) extends Actor {
 
   def receive = {
     case command: Tcs_Command =>
+      println(s"***** mcs hcd server received $command from ${sender()}")
       val result = zmqClient.query(command, command_response)
       result pipeTo sender()
   }
