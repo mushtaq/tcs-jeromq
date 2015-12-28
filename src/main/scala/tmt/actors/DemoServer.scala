@@ -1,12 +1,12 @@
 package tmt.actors
 
-import tmt.app.Assembly
+import caseapp._
+import tmt.app.{Params, Assembly}
 
-object DemoServer extends App {
-  val assembly = args match {
-    case Array(env, seedName) => new Assembly(env, Some(seedName))
-    case Array(env) => new Assembly(env, None)
-  }
+case class DemoServer(params: Params) extends App {
+  new Assembly(params).mcsHcdServerSingleton.manager
+}
 
-  assembly.mcsHcdServerSingleton.manager
+object DemoServerApp extends AppOf[DemoServer] {
+  def parser = default
 }

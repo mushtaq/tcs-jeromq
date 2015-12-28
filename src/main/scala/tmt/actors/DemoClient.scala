@@ -1,16 +1,12 @@
 package tmt.actors
 
+import caseapp._
 import tcsstr2.Transition
-import tmt.app.Assembly
+import tmt.app.{Assembly, Params}
 
-object DemoClient extends App {
+case class DemoClient(params: Params) extends App {
 
-  val assembly = args match {
-    case Array(env, seedName) => new Assembly(env, Some(seedName))
-    case Array(env) => new Assembly(env, None)
-  }
-
-  import assembly._
+  val mcsHcdClient = new Assembly(params).mcsHcdClient
 
   Thread.sleep(1000)
   mcsHcdClient.lifecycle(Transition.STARTUP)
@@ -20,5 +16,8 @@ object DemoClient extends App {
   mcsHcdClient.lifecycle(Transition.STARTUP)
   Thread.sleep(1000)
   mcsHcdClient.lifecycle(Transition.STARTUP)
+}
 
+object DemoClientApp extends AppOf[DemoClient] {
+  def parser = default
 }

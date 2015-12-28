@@ -8,13 +8,13 @@ import tmt.library.ConfigLoader
 import tmt.reactivemq._
 import tmt.utils.ActorRuntime
 
-class Assembly(env: String, seedName: Option[String]) {
+class Assembly(params: Params) {
 
   import com.softwaremill.macwire._
 
   lazy val configLoader = wire[ConfigLoader]
 
-  lazy val system = ActorSystem("ClusterSystem", configLoader.load(env, seedName))
+  lazy val system = ActorSystem("ClusterSystem", configLoader.load(params))
 
   lazy implicit val ec     = system.dispatcher
   lazy implicit val mat    = ActorMaterializer()(system)

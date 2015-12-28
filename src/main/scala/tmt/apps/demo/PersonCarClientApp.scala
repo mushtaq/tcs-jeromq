@@ -1,11 +1,12 @@
 package tmt.apps.demo
 
+import caseapp._
 import sample.{Car, Person}
-import tmt.app.Assembly
+import tmt.app.{Params, Assembly}
 
-object PersonCarClientApp extends App {
+case class PersonCarClient(params: Params) extends App {
 
-  val assembly = new Assembly("dev", None)
+  val assembly = new Assembly(params)
   import assembly._
 
   (1 to 10).foreach { requestNbr =>
@@ -22,4 +23,8 @@ object PersonCarClientApp extends App {
   zmqClient.shutdown()
   runtime.shutdown()
 
+}
+
+object PersonCarClientApp extends AppOf[PersonCarClient] {
+  def parser = default
 }

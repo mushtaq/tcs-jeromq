@@ -3,16 +3,17 @@ package tmt.apps.demo
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType
 import sample._
-import tmt.app.Assembly
+import tmt.app.{Params, Assembly}
 
 import scala.util.{Random, Try}
+import caseapp._
 
-object PersonCarServerApp extends App {
+case class PersonCarServer(params: Params) extends App {
 
 //  println(B.parseFrom(A("hello", 100).toByteArray)) // B(0, "")
 //  println(A.parseFrom(B(100, "hello").toByteArray)) // A("", 0)
 
-  val assembly = new Assembly("dev", None)
+  val assembly = new Assembly(params)
   import assembly._
 
   zmqServer.start(Command) { command =>
@@ -32,4 +33,8 @@ object PersonCarServerApp extends App {
     runtime.shutdown()
   }
 
+}
+
+object PersonCarServerApp extends AppOf[PersonCarServer] {
+  def parser = default
 }

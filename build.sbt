@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-async" % "0.9.5",
   "com.softwaremill.macwire" %% "macros" % "2.2.0" % "provided",
   "com.softwaremill.macwire" %% "util" % "2.2.0",
+  "com.github.alexarchambault" %% "case-app" % "0.3.0",
 
   "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )

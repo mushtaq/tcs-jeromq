@@ -1,12 +1,13 @@
 package tmt.apps.demo
 
 import akka.stream.scaladsl.Source
+import caseapp._
 import sample.Person
-import tmt.app.Assembly
+import tmt.app.{Params, Assembly}
 
-object PersonPublisherApp extends App {
+case class PersonPublisher(params: Params) extends App {
 
-  val assembly = new Assembly("dev", None)
+  val assembly = new Assembly(params)
   import assembly._
 
   val publisher = zmqPublisherFactory.make[Person](5555)
@@ -20,4 +21,8 @@ object PersonPublisherApp extends App {
       runtime.shutdown()
     }
 
+}
+
+object PersonPublisherApp extends AppOf[PersonPublisher] {
+  def parser = default
 }

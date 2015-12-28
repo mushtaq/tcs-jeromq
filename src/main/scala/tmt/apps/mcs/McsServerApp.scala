@@ -1,13 +1,14 @@
 package tmt.apps.mcs
 
+import caseapp._
 import tcsstr2.Tcs_Command.Msg.TcsMcsLifecycle
 import tcsstr2.command_response.ErrorState
 import tcsstr2.{Transition, Tcs_Command, Timestamp, command_response}
-import tmt.app.Assembly
+import tmt.app.{Params, Assembly}
 
-object McsServerApp extends App {
+case class McsServer(params: Params) extends App {
 
-  val assembly = new Assembly("dev", None)
+  val assembly = new Assembly(params)
   import assembly._
 
   zmqServer.start(Tcs_Command) { command =>
@@ -31,4 +32,8 @@ object McsServerApp extends App {
     runtime.shutdown()
   }
 
+}
+
+object McsServerApp extends AppOf[McsServer] {
+  def parser = default
 }

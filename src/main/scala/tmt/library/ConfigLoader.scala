@@ -1,16 +1,17 @@
 package tmt.library
 
 import com.typesafe.config._
+import tmt.app.Params
 import tmt.library.ConfigObjectExtensions.RichConfig
 
 class ConfigLoader {
 
-  def load(env: String, seedName: Option[String]) = {
-    val config = parse(env)
+  def load(params: Params) = {
+    val config = parse(params.env)
 
-    val (privateIp, port) = seedName match {
+    val (privateIp, port) = params.seedName match {
       case Some(seed) => (config.getString(s"$seed.hostname"), config.getInt(s"$seed.port"))
-      case None       => IpInfo.privateIpAndPort(env)
+      case None       => IpInfo.privateIpAndPort(params.env)
     }
 
     val bindingConfig = ConfigFactory.empty()

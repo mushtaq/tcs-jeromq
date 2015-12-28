@@ -1,11 +1,11 @@
 package tmt.apps.demo
 
+import caseapp._
 import sample.Person
-import tmt.app.Assembly
+import tmt.app.{Params, Assembly}
 
-object PersonSubscriberApp extends App {
-
-  val assembly = new Assembly("dev", None)
+case class PersonSubscriber(params: Params) extends App {
+  val assembly = new Assembly(params)
   import assembly._
 
   val subscriber = zmqSubscriberFactory.make(5555, Person)
@@ -17,4 +17,8 @@ object PersonSubscriberApp extends App {
     subscriber.shutdown()
     runtime.shutdown()
   }
+}
+
+object PersonSubscriberApp extends AppOf[PersonSubscriber] {
+  def parser = default
 }
