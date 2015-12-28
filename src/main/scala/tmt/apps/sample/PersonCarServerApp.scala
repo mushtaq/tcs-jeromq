@@ -1,4 +1,4 @@
-package tmt.apps.demo
+package tmt.apps.sample
 
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType

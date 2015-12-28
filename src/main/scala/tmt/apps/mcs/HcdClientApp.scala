@@ -1,14 +1,14 @@
-package tmt.actors
+package tmt.apps.mcs
 
 import caseapp._
 import tcsstr2.Transition
 import tmt.app.{Assembly, Params}
 
-case class DemoClient(params: Params) extends App {
+case class HcdClient(params: Params) extends App {
 
   val mcsHcdClient = new Assembly(params).mcsHcdClient
 
-  Thread.sleep(1000)
+  Thread.sleep(15000)
   mcsHcdClient.lifecycle(Transition.STARTUP)
   Thread.sleep(1000)
   mcsHcdClient.lifecycle(Transition.STARTUP)
@@ -18,6 +18,6 @@ case class DemoClient(params: Params) extends App {
   mcsHcdClient.lifecycle(Transition.STARTUP)
 }
 
-object DemoClientApp extends AppOf[DemoClient] {
+object HcdClientApp extends AppOf[HcdClient] {
   def parser = default
 }

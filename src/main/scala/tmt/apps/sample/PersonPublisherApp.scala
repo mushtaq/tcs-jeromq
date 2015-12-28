@@ -1,4 +1,4 @@
-package tmt.apps.demo
+package tmt.apps.sample
 
 import akka.stream.scaladsl.Source
 import caseapp._
