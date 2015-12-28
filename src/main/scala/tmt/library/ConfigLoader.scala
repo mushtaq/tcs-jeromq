@@ -10,7 +10,7 @@ class ConfigLoader {
 
     val (privateIp, port) = seedName match {
       case Some(seed) => (config.getString(s"$seed.hostname"), config.getInt(s"$seed.port"))
-      case None       => (IpInfo.privateIp(env), 0)
+      case None       => IpInfo.privateIpAndPort(env)
     }
 
     val bindingConfig = ConfigFactory.empty()

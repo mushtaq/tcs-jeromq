@@ -12,7 +12,7 @@ object DemoClient extends App {
 
   import assembly._
 
-  Thread.sleep(5000)
+  Thread.sleep(1000)
   mcsHcdClient.lifecycle(Transition.STARTUP)
   Thread.sleep(1000)
   mcsHcdClient.lifecycle(Transition.STARTUP)
