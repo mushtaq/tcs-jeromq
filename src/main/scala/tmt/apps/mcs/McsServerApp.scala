@@ -3,21 +3,14 @@ package tmt.apps.mcs
 import tcsstr2.Tcs_Command.Msg.TcsMcsLifecycle
 import tcsstr2.command_response.ErrorState
 import tcsstr2.{Transition, Tcs_Command, Timestamp, command_response}
-import tmt.reactivemq.ZmqServer
-import tmt.utils.ActorRuntime
+import tmt.app.Assembly
 
 object McsServerApp extends App {
 
-  val runtime = ActorRuntime.create()
+  val assembly = new Assembly("dev", None)
+  import assembly._
 
-  import runtime._
-
-  val server = new ZmqServer(
-    address = "tcp://*:5555",
-    runtime = runtime
-  )
-
-  server.start(Tcs_Command) { command =>
+  zmqServer.start(Tcs_Command) { command =>
     command.msg match {
       case TcsMcsLifecycle(Transition.STARTUP) =>
         println("done!!!!")
@@ -34,7 +27,7 @@ object McsServerApp extends App {
         )
     }
   }.onComplete { x =>
-    server.shutdown()
+    zmqServer.shutdown()
     runtime.shutdown()
   }
 

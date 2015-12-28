@@ -3,8 +3,7 @@ package tmt.apps.demo
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType
 import sample._
-import tmt.reactivemq.ZmqServer
-import tmt.utils.ActorRuntime
+import tmt.app.Assembly
 
 import scala.util.{Random, Try}
 
@@ -13,16 +12,10 @@ object PersonCarServerApp extends App {
 //  println(B.parseFrom(A("hello", 100).toByteArray)) // B(0, "")
 //  println(A.parseFrom(B(100, "hello").toByteArray)) // A("", 0)
 
-  val runtime = ActorRuntime.create()
+  val assembly = new Assembly("dev", None)
+  import assembly._
 
-  import runtime._
-
-  val server = new ZmqServer(
-    address = "tcp://*:5555",
-    runtime = runtime
-  )
-
-  server.start(Command) { command =>
+  zmqServer.start(Command) { command =>
     command.msg match {
       case UpdatePerson(person) =>
         val number = Random.nextInt(10000).toString
@@ -35,7 +28,7 @@ object PersonCarServerApp extends App {
         ErrorMsg("something has gone wrong")
     }
   }.onComplete { x =>
-    server.shutdown()
+    zmqServer.shutdown()
     runtime.shutdown()
   }
 

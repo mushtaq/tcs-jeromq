@@ -2,13 +2,16 @@ package tmt.reactivemq
 
 import com.trueaccord.scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 import org.zeromq.ZMQ
+import tmt.app.AppSettings
 import tmt.utils.{PbMessage, EC, ActorRuntime}
 
 import scala.concurrent.Future
 
-class ZmqClient(address: String, runtime: ActorRuntime ) {
+class ZmqClient(settings: AppSettings, runtime: ActorRuntime) {
 
   import runtime._
+
+  val address = s"tcp://${settings.mcsIp}:${settings.mcsCommandsPort}"
 
   private val socket = zmqContext.socket(ZMQ.REQ)
   println(s"Connecting to server $address")

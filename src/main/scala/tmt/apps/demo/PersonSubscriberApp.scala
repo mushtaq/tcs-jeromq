@@ -1,19 +1,14 @@
 package tmt.apps.demo
 
 import sample.Person
-import tmt.reactivemq.ZmqSubscriber
-import tmt.utils.ActorRuntime
+import tmt.app.Assembly
 
 object PersonSubscriberApp extends App {
 
-  val runtime = ActorRuntime.create()
-  import runtime._
+  val assembly = new Assembly("dev", None)
+  import assembly._
 
-  val subscriber = new ZmqSubscriber[Person](
-    address = "tcp://localhost:5555",
-    responseParser = Person,
-    runtime = runtime
-  )
+  val subscriber = zmqSubscriberFactory.make(5555, Person)
 
   subscriber.stream.runForeach { x =>
     println(s"Received $x")

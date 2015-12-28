@@ -1,21 +1,12 @@
 package tmt.apps.demo
 
 import sample.{Car, Person}
-import tmt.reactivemq.{SampleClient, ZmqClient}
-import tmt.utils.ActorRuntime
+import tmt.app.Assembly
 
 object PersonCarClientApp extends App {
 
-  val runtime = ActorRuntime.create()
-
-  import runtime._
-
-  val zmqClient = new ZmqClient(
-    address = "tcp://localhost:5555",
-    runtime = runtime
-  )
-
-  val sampleClient = new SampleClient(zmqClient)
+  val assembly = new Assembly("dev", None)
+  import assembly._
 
   (1 to 10).foreach { requestNbr =>
     val person = Person(name = s"mushtaq-$requestNbr", id = requestNbr)

@@ -3,17 +3,21 @@ package tmt.reactivemq
 import akka.stream.scaladsl.Source
 import com.trueaccord.scalapb.GeneratedMessageCompanion
 import org.zeromq.ZMQ
+import tmt.app.AppSettings
 import tmt.utils.{PbMessage, EC, ActorRuntime}
 
 import scala.concurrent.Future
 
 class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
-  address: String,
+  port: Int,
   responseParser: GeneratedMessageCompanion[Msg],
+  settings: AppSettings,
   runtime: ActorRuntime
 ) {
 
   import runtime._
+
+  val address = s"tcp://${settings.mcsIp}:$port"
 
   private val socket = zmqContext.socket(ZMQ.SUB)
   println(s"Connecting to $address")
@@ -37,4 +41,9 @@ class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
     socket.close()
     ec.shutdown()
   }
+}
+
+class ZmqSubscriberFactory(settings: AppSettings, runtime: ActorRuntime) {
+  def make[Msg <: PbMessage.Of[Msg]](port: Int, responseParser: GeneratedMessageCompanion[Msg]) =
+    new ZmqSubscriber[Msg](port, responseParser, settings, runtime)
 }

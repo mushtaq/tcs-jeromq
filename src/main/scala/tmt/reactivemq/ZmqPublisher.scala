@@ -7,12 +7,11 @@ import tmt.utils.{EC, ActorRuntime}
 
 import scala.concurrent.Future
 
-class ZmqPublisher[Msg <: GeneratedMessage](
-  address: String,
-  runtime: ActorRuntime
-) {
+class ZmqPublisher[Msg <: GeneratedMessage](port: Int, runtime: ActorRuntime) {
 
   import runtime._
+
+  val address = s"tcp://*:$port"
 
   private val socket = zmqContext.socket(ZMQ.PUB)
   socket.bind(address)
@@ -38,4 +37,8 @@ class ZmqPublisher[Msg <: GeneratedMessage](
     socket.close()
     ec.shutdown()
   }
+}
+
+class ZmqPublisherFactory(runtime: ActorRuntime) {
+  def make[Msg <: GeneratedMessage](port: Int) = new ZmqPublisher[Msg](port, runtime)
 }
