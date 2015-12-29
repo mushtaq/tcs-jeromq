@@ -11,9 +11,9 @@ class Assembly(params: Params) {
 
   import com.softwaremill.macwire._
 
-  lazy val configLoader = wire[ConfigLoader]
+  lazy val configLoader = new ConfigLoader(params)
 
-  lazy val system = ActorSystem("ClusterSystem", configLoader.load(params))
+  lazy val system = ActorSystem("ClusterSystem", configLoader.load())
 
   lazy implicit val ec     = system.dispatcher
   lazy implicit val mat    = ActorMaterializer()(system)

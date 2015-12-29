@@ -1,30 +1,34 @@
 package tmt.library
 
+import java.net.InetAddress
+
 import com.typesafe.config._
 import tmt.app.Params
 import tmt.library.ConfigObjectExtensions.RichConfig
 import collection.JavaConverters._
 
-class ConfigLoader {
+class ConfigLoader(params: Params) {
 
-  def load(params: Params) = {
-    val config = parse(params.env)
+  def load() = config.withFallback(binding).resolve()
 
-    val privateIp = IpInfo.privateIp(params.env)
+  def config = ConfigFactory.load(
+    params.env,
+    ConfigParseOptions.defaults(),
+    ConfigResolveOptions.defaults().setAllowUnresolved(true)
+  )
 
+  def binding = {
     val bindingConfig = ConfigFactory.empty()
       .withPair("hostname", privateIp)
       .withPair("port", Integer.valueOf(params.port))
       .withPair("roles", params.roles.asJava)
 
-    val binding = ConfigFactory.empty().withValue("binding", bindingConfig.root())
-
-    config.withFallback(binding).resolve()
+    ConfigFactory.empty().withValue("binding", bindingConfig.root())
   }
 
-  def parse(name: String) = ConfigFactory.load(
-    name,
-    ConfigParseOptions.defaults(),
-    ConfigResolveOptions.defaults().setAllowUnresolved(true)
-  )
+  def privateIp = params.env match {
+    case "prod" => InetAddress.getLocalHost.getHostAddress
+    case _      => "127.0.0.1"
+  }
+
 }
