@@ -1,11 +1,11 @@
-package tmt.actors
+package tmt.mcs.hcd
 
 import akka.actor.Actor
-import tcsstr2.{command_response, Tcs_Command}
-import tmt.reactivemq.ZmqClient
 import akka.pattern.pipe
+import tcsstr2.{Tcs_Command, command_response}
+import tmt.mcs.reactivemq.ZmqClient
 
-class McsHcdServer(zmqClient: ZmqClient) extends Actor {
+class CommandsHcd(zmqClient: ZmqClient) extends Actor {
 
   import context.dispatcher
 

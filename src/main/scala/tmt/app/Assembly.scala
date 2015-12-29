@@ -2,9 +2,11 @@ package tmt.app
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import tmt.actors.{McsHcdClient, McsHcdServerSingleton}
 import tmt.library.ConfigLoader
-import tmt.reactivemq._
+import tmt.mcs.clients.CommandsClient
+import tmt.mcs.hcd.CommandsHcdSingleton
+import tmt.mcs.reactivemq._
+import tmt.sample.SampleClient
 import tmt.utils.ActorRuntime
 
 class Assembly(params: Params) {
@@ -30,9 +32,9 @@ class Assembly(params: Params) {
 
   lazy val zmqSubscriberFactory = wire[ZmqSubscriberFactory]
 
-  lazy val mcsHcdServerSingleton = wire[McsHcdServerSingleton]
+  lazy val mcsHcdServerSingleton = wire[CommandsHcdSingleton]
 
-  lazy val mcsHcdClient = wire[McsHcdClient]
+  lazy val mcsHcdClient = wire[CommandsClient]
 
   lazy val sampleClient = wire[SampleClient]
 }

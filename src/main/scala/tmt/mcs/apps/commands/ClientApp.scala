@@ -1,10 +1,10 @@
-package tmt.apps.mcs
+package tmt.mcs.apps.commands
 
 import caseapp._
 import tcsstr2.Transition
 import tmt.app.{Assembly, Params}
 
-case class HcdClient(params: Params) extends App {
+case class Client(params: Params) extends App {
 
   val mcsHcdClient = new Assembly(params).mcsHcdClient
 
@@ -17,6 +17,6 @@ case class HcdClient(params: Params) extends App {
 
 }
 
-object HcdClientApp extends AppOf[HcdClient] {
+object ClientApp extends AppOf[Client] {
   def parser = default
 }

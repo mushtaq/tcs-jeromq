@@ -1,4 +1,4 @@
-package tmt.apps.sample
+package tmt.sample
 
 import caseapp._
 import sample.{Car, Person}

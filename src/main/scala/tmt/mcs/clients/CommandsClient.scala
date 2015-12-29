@@ -1,11 +1,12 @@
-package tmt.actors
+package tmt.mcs.clients
 
-import tcsstr2.Tcs_Command.Msg.TcsMcsLifecycle
-import tcsstr2.{command_response, Tcs_Command, Transition}
-import tmt.utils.ActorRuntime
 import akka.pattern.ask
+import tcsstr2.Tcs_Command.Msg.TcsMcsLifecycle
+import tcsstr2.{Tcs_Command, Transition, command_response}
+import tmt.mcs.hcd.CommandsHcdSingleton
+import tmt.utils.ActorRuntime
 
-class McsHcdClient(actorRuntime: ActorRuntime, mcsHcdServerSingleton: McsHcdServerSingleton) {
+class CommandsClient(actorRuntime: ActorRuntime, mcsHcdServerSingleton: CommandsHcdSingleton) {
 
   import actorRuntime._
 

@@ -1,4 +1,4 @@
-package tmt.reactivemq
+package tmt.mcs.reactivemq
 
 import akka.stream.scaladsl.{Sink, Source}
 import com.trueaccord.scalapb.GeneratedMessage

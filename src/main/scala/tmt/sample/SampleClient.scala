@@ -1,7 +1,8 @@
-package tmt.reactivemq
+package tmt.sample
 
 import sample.Command.Msg.{ServiceCar, UpdatePerson}
-import sample.{Command, Car, Person}
+import sample.{Car, Command, Person}
+import tmt.mcs.reactivemq.ZmqClient
 
 import scala.concurrent.Future
 

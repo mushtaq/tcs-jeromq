@@ -1,18 +1,18 @@
-package tmt.actors
+package tmt.mcs.hcd
 
 import akka.actor.{PoisonPill, Props}
 import akka.cluster.singleton.{ClusterSingletonManager, ClusterSingletonManagerSettings, ClusterSingletonProxy, ClusterSingletonProxySettings}
 import tmt.app.Names
-import tmt.reactivemq.ZmqClient
+import tmt.mcs.reactivemq.ZmqClient
 import tmt.utils.ActorRuntime
 
-class McsHcdServerSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
+class CommandsHcdSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
 
   import actorRuntime._
 
   lazy val manager = system.actorOf(
     ClusterSingletonManager.props(
-      singletonProps = Props(new McsHcdServer(zmqClient)),
+      singletonProps = Props(new CommandsHcd(zmqClient)),
       terminationMessage = PoisonPill,
       settings = ClusterSingletonManagerSettings(system).withRole(Names.HcdServer)
     ),
