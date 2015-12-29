@@ -14,8 +14,11 @@ class SubscriberHcd(actorRuntime: ActorRuntime, zmqSubscriberFactory: ZmqSubscri
     responseParser: GeneratedMessageCompanion[Msg]
   ) = {
     val zmqSubscriber = zmqSubscriberFactory.make(subscriberPort, responseParser)
-    zmqSubscriber.stream.runForeach { message =>
-      mediator ! Publish(publishingTopic, message)
-    }
+    zmqSubscriber.stream
+      .runForeach { message =>
+        mediator ! Publish(publishingTopic, message)
+      }.onComplete { x =>
+        zmqSubscriber.shutdown()
+      }
   }
 }
