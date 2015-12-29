@@ -17,7 +17,7 @@ class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
 
   import runtime._
 
-  val address = s"tcp://${settings.mcsIp}:$port"
+  val address = s"tcp://${settings.mcsHostname}:$port"
 
   private val socket = zmqContext.socket(ZMQ.SUB)
   println(s"Connecting to $address")

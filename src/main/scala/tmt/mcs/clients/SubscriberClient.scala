@@ -1,5 +1,6 @@
 package tmt.mcs.clients
 
+import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.pubsub.DistributedPubSubMediator.Subscribe
 import akka.stream.scaladsl.Sink
 import tmt.library.Connector
@@ -11,7 +12,7 @@ class SubscriberClient(actorRuntime: ActorRuntime) {
 
   def subscribe[Msg <: PbMessage.Of[Msg]](topic: String) = {
     val (sourceLinkedRef, source) = Connector.coupling[Msg](Sink.asPublisher(fanout = true))
-    mediator ! Subscribe(topic, sourceLinkedRef)
+    DistributedPubSub(system).mediator ! Subscribe(topic, sourceLinkedRef)
     source
   }
 }

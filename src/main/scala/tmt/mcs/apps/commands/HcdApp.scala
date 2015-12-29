@@ -4,7 +4,7 @@ import caseapp._
 import tmt.app.{Assembly, Names, Params}
 
 case class Hcd(params: Params) extends App {
-  val updatedParams = params.copy(roles = Names.HcdServer :: params.roles)
+  val updatedParams = params.addRole(Names.HcdServer)
   new Assembly(updatedParams).commandsHcdSingleton.manager
 }
 

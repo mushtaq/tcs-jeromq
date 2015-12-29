@@ -1,5 +1,6 @@
 package tmt.mcs.hcd
 
+import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.pubsub.DistributedPubSubMediator.Subscribe
 import akka.stream.scaladsl.Sink
 import com.trueaccord.scalapb.GeneratedMessage
@@ -12,7 +13,7 @@ class PublisherHcd(actorRuntime: ActorRuntime, zmqPublisherFactory: ZmqPublisher
 
   def connect[Msg <: GeneratedMessage](subscriberTopic: String, publishingPort: Int) = {
     val (sourceLinkedRef, source) = Connector.coupling[Msg](Sink.asPublisher(fanout = false))
-    mediator ! Subscribe(subscriberTopic, sourceLinkedRef)
+    DistributedPubSub(system).mediator ! Subscribe(subscriberTopic, sourceLinkedRef)
     val zmqPublisher = zmqPublisherFactory.make[Msg](publishingPort)
 
     zmqPublisher

@@ -11,7 +11,7 @@ class ZmqClient(settings: AppSettings, runtime: ActorRuntime) {
 
   import runtime._
 
-  val address = s"tcp://${settings.mcsIp}:${settings.mcsCommandsPort}"
+  val address = s"tcp://${settings.mcsHostname}:${settings.mcsCommandsPort}"
 
   private val socket = zmqContext.socket(ZMQ.REQ)
   println(s"Connecting to server $address")

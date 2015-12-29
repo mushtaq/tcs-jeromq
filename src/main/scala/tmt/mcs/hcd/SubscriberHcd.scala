@@ -1,5 +1,6 @@
 package tmt.mcs.hcd
 
+import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.pubsub.DistributedPubSubMediator.Publish
 import com.trueaccord.scalapb.GeneratedMessageCompanion
 import tmt.mcs.reactivemq.ZmqSubscriberFactory
@@ -17,7 +18,7 @@ class SubscriberHcd(actorRuntime: ActorRuntime, zmqSubscriberFactory: ZmqSubscri
     zmqSubscriber.stream
       .runForeach { message =>
         println(s"***************** SubscriberHcd received $message")
-        mediator ! Publish(publishingTopic, message)
+        DistributedPubSub(system).mediator ! Publish(publishingTopic, message)
       }.onComplete { x =>
         zmqSubscriber.shutdown()
       }

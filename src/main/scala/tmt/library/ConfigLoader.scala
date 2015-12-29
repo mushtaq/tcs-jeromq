@@ -12,7 +12,7 @@ class ConfigLoader(params: Params) {
   def load() = config.withFallback(binding).resolve()
 
   def config = ConfigFactory.load(
-    params.env,
+    params.configName,
     ConfigParseOptions.defaults(),
     ConfigResolveOptions.defaults().setAllowUnresolved(true)
   )

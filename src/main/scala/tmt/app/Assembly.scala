@@ -1,6 +1,7 @@
 package tmt.app
 
 import akka.actor.ActorSystem
+import akka.cluster.pubsub.DistributedPubSub
 import akka.stream.ActorMaterializer
 import tmt.library.ConfigLoader
 import tmt.mcs.clients.{SubscriberClient, PublisherClient, CommandsClient}
@@ -15,7 +16,7 @@ class Assembly(params: Params) {
 
   lazy val configLoader = new ConfigLoader(params)
 
-  lazy val system = ActorSystem("ClusterSystem", configLoader.load())
+  lazy val system = ActorSystem(params.system, configLoader.load())
 
   lazy implicit val ec     = system.dispatcher
   lazy implicit val mat    = ActorMaterializer()(system)
