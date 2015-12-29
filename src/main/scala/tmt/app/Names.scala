@@ -1,5 +1,6 @@
 package tmt.app
 
 object Names {
-  val HcdServer = "hcdServer"
+  val HcdServer = "HcdServer"
+  val PositionDemands = "PositionDemands"
 }

@@ -3,8 +3,8 @@ package tmt.app
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import tmt.library.ConfigLoader
-import tmt.mcs.clients.CommandsClient
-import tmt.mcs.hcd.CommandsHcdSingleton
+import tmt.mcs.clients.{SubscriberClient, PublisherClient, CommandsClient}
+import tmt.mcs.hcd.{SubscriberHcd, PublisherHcd, CommandsHcdSingleton}
 import tmt.mcs.reactivemq._
 import tmt.sample.SampleClient
 import tmt.utils.ActorRuntime
@@ -21,20 +21,20 @@ class Assembly(params: Params) {
   lazy implicit val mat    = ActorMaterializer()(system)
 
   lazy val runtime: ActorRuntime = wire[ActorRuntime]
-
   lazy val appSettings = wire[AppSettings]
 
   lazy val zmqClient = wire[ZmqClient]
-
   lazy val zmqServer = wire[ZmqServer]
-
   lazy val zmqPublisherFactory = wire[ZmqPublisherFactory]
-
   lazy val zmqSubscriberFactory = wire[ZmqSubscriberFactory]
 
-  lazy val mcsHcdServerSingleton = wire[CommandsHcdSingleton]
+  lazy val commandsHcdSingleton = wire[CommandsHcdSingleton]
+  lazy val publisherClient = wire[PublisherClient]
+  lazy val subscriberClient = wire[SubscriberClient]
 
-  lazy val mcsHcdClient = wire[CommandsClient]
+  lazy val commandsClient = wire[CommandsClient]
+  lazy val publisherHcd = wire[PublisherHcd]
+  lazy val subscriberHcd = wire[SubscriberHcd]
 
   lazy val sampleClient = wire[SampleClient]
 }

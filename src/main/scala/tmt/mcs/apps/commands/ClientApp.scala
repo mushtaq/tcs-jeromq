@@ -6,7 +6,7 @@ import tmt.app.{Assembly, Params}
 
 case class Client(params: Params) extends App {
 
-  val mcsHcdClient = new Assembly(params).mcsHcdClient
+  val mcsHcdClient = new Assembly(params).commandsClient
 
   Thread.sleep(15000)
 

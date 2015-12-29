@@ -9,5 +9,8 @@ class AppSettings(actorRuntime: ActorRuntime) {
   val config = system.settings.config
 
   val mcsIp = config.getString("mcs.ip")
-  val mcsCommandsPort = config.getString("mcs.ports.commands")
+
+  val mcsCommandsPort = config.getInt("mcs.ports.commands")
+
+  val mcsPositionDemandPort = config.getInt("mcs.ports.subscribers.position_demand")
 }

@@ -11,6 +11,7 @@ class PublisherClient(actorRuntime: ActorRuntime) {
 
   def publish[Msg <: GeneratedMessage](messages: Source[Msg, Any], topic: String) = {
     messages.runForeach { message =>
+      println(s"********* PublisherClient is publishing: $message")
       mediator ! Publish(topic, message)
     }
   }

@@ -28,7 +28,7 @@ class ZmqPublisher[Msg <: GeneratedMessage](port: Int, runtime: ActorRuntime) {
   }
 
   def publishSingle(message: Msg) = Future {
-    println(s"Publishing: [$message]")
+    println(s"********** ZmqPublisher is publishing: [$message]")
     Thread.sleep(100)
     socket.send(message.toByteArray, 0)
   }(ec)
