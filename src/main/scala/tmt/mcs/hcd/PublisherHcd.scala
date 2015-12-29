@@ -14,8 +14,11 @@ class PublisherHcd(actorRuntime: ActorRuntime, zmqPublisherFactory: ZmqPublisher
     val (sourceLinkedRef, source) = Connector.coupling[Msg](Sink.asPublisher(fanout = false))
     mediator ! Subscribe(subscriberTopic, sourceLinkedRef)
     val zmqPublisher = zmqPublisherFactory.make[Msg](publishingPort)
-    zmqPublisher.publish(source).onComplete { x =>
-      zmqPublisher.shutdown()
-    }
+
+    zmqPublisher
+      .publish(source)
+      .onComplete { x =>
+        zmqPublisher.shutdown()
+      }
   }
 }

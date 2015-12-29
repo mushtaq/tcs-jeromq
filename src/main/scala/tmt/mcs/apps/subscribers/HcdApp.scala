@@ -9,9 +9,9 @@ case class Hcd(params: Params) extends App {
   import assembly._
 
   subscriberHcd.connect(
-    Names.DriveStatus,
-    appSettings.mcsDriveStatusPort,
-    mcs_DriveStatus
+    publishingTopic = Names.DriveStatus,
+    subscriberPort = appSettings.mcsDriveStatusPort,
+    responseParser = mcs_DriveStatus
   )
 }
 

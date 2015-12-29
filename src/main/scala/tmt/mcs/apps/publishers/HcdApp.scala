@@ -9,8 +9,8 @@ case class Hcd(params: Params) extends App {
   import assembly._
 
   publisherHcd.connect[tcs_mcs_PositionDemand](
-    Names.PositionDemands,
-    appSettings.mcsPositionDemandPort
+    subscriberTopic = Names.PositionDemands,
+    publishingPort = appSettings.mcsPositionDemandPort
   )
 }
 
