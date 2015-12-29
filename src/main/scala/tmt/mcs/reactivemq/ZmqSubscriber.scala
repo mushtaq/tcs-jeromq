@@ -31,7 +31,7 @@ class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
       .repeat(())
       .mapAsync(1)(_ => receive())
       .map(bytes => responseParser.parseFrom(bytes))
-      .map(x => println(s"********* ZmqSubscriber received $x"))
+      .map(x => {println(s"********* ZmqSubscriber received $x"); x})
   }
 
   private def receive() = Future {

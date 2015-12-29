@@ -13,4 +13,6 @@ class AppSettings(actorRuntime: ActorRuntime) {
   val mcsCommandsPort = config.getInt("mcs.ports.commands")
 
   val mcsPositionDemandPort = config.getInt("mcs.ports.subscribers.position_demand")
+
+  val mcsDriveStatusPort = config.getInt("mcs.ports.publishers.drive_status")
 }
