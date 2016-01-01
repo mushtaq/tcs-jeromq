@@ -2,7 +2,8 @@ package tmt.sample
 
 import caseapp._
 import sample.{Car, Person}
-import tmt.app.{Params, Assembly}
+
+import tmt.app.configs.{Params, Assembly}
 
 case class PersonCarClient(params: Params) extends App {
 

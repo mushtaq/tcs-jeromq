@@ -3,7 +3,8 @@ package tmt.sample
 import akka.stream.scaladsl.Source
 import caseapp._
 import sample.Person
-import tmt.app.{Params, Assembly}
+
+import tmt.app.configs.{Params, Assembly}
 
 case class PersonPublisher(params: Params) extends App {
 

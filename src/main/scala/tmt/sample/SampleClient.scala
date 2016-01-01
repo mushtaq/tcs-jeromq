@@ -2,7 +2,7 @@ package tmt.sample
 
 import sample.Command.Msg.{ServiceCar, UpdatePerson}
 import sample.{Car, Command, Person}
-import tmt.mcs.reactivemq.ZmqClient
+import tmt.demo.zeromq_drivers.ZmqClient
 
 import scala.concurrent.Future
 

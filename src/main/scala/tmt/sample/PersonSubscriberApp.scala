@@ -2,7 +2,8 @@ package tmt.sample
 
 import caseapp._
 import sample.Person
-import tmt.app.{Params, Assembly}
+
+import tmt.app.configs.{Params, Assembly}
 
 case class PersonSubscriber(params: Params) extends App {
   val assembly = new Assembly(params)

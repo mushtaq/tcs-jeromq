@@ -3,7 +3,8 @@ package tmt.sample
 import sample.Command.Msg.{Empty, ServiceCar, UpdatePerson}
 import sample.PhoneNumber.PhoneType
 import sample._
-import tmt.app.{Params, Assembly}
+
+import tmt.app.configs.{Params, Assembly}
 
 import scala.util.{Random, Try}
 import caseapp._
