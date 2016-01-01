@@ -11,11 +11,11 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream-experimental" % "2.0.1",
   "com.typesafe.akka" %% "akka-cluster-tools" % "2.4.1",
   "org.scala-lang.modules" %% "scala-async" % "0.9.5",
-  "com.softwaremill.macwire" %% "macros" % "2.2.0" % "provided",
-  "com.softwaremill.macwire" %% "util" % "2.2.0",
+  "com.softwaremill.macwire" %% "macros" % "2.2.2" % "provided",
+  "com.softwaremill.macwire" %% "util" % "2.2.2",
   "com.github.alexarchambault" %% "case-app" % "0.3.0",
 
-  "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+  "org.scalatest" %% "scalatest" % "2.2.5" % "test"
 )
 
 // Uncomment to use Akka
