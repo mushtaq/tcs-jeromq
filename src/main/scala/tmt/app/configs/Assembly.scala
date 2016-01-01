@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import tmt.app.library.ConfigLoader
 import tmt.demo.hcd_drivers.{CommandClient, EventPublisher, EventSubscriber}
-import tmt.demo.hcds.{CommandHcdSingleton, EventPublisherHcd, EventSubscriberHcd}
+import tmt.demo.hcds.{CommandServerHcdSingleton, EventSubscriberHcd, EventPublisherHcd}
 import tmt.demo.zeromq_drivers._
 import tmt.sample.SampleClient
 import tmt.app.utils.ActorRuntime
@@ -28,13 +28,13 @@ class Assembly(params: Params) {
   lazy val zmqPublisherFactory = wire[ZmqPublisherFactory]
   lazy val zmqSubscriberFactory = wire[ZmqSubscriberFactory]
 
-  lazy val commandsHcdSingleton = wire[CommandHcdSingleton]
-  lazy val publisherClient = wire[EventPublisher]
-  lazy val subscriberClient = wire[EventSubscriber]
+  lazy val commandServerHcdSingleton = wire[CommandServerHcdSingleton]
+  lazy val eventSubscriberHcd = wire[EventSubscriberHcd]
+  lazy val eventPublisherHcd = wire[EventPublisherHcd]
 
   lazy val commandsClient = wire[CommandClient]
-  lazy val publisherHcd = wire[EventPublisherHcd]
-  lazy val subscriberHcd = wire[EventSubscriberHcd]
+  lazy val eventPublisher = wire[EventPublisher]
+  lazy val eventSubscriber = wire[EventSubscriber]
 
   lazy val sampleClient = wire[SampleClient]
 }

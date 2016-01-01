@@ -4,13 +4,16 @@ import caseapp._
 import tcsstr2.mcs_DriveStatus
 import tmt.app.configs.{Params, Names, Assembly}
 
+object DemoApp extends AppOf[DemoAppInner] {
+  def parser = default
+}
 
-case class Client(params: Params) extends App {
+case class DemoAppInner(params: Params) extends App {
 
   val assembly = new Assembly(params)
   import assembly._
 
-  subscriberClient
+  eventSubscriber
     .subscribe[mcs_DriveStatus](Names.DriveStatus)
     .runForeach(x => println(s"******* ClientApp received $x at ${System.currentTimeMillis()}"))
     .onComplete { x =>
@@ -18,8 +21,4 @@ case class Client(params: Params) extends App {
       runtime.shutdown()
     }
 
-}
-
-object ClientApp extends AppOf[Client] {
-  def parser = default
 }

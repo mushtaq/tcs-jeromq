@@ -6,7 +6,11 @@ import tcsstr2.command_response.ErrorState
 import tcsstr2.{Tcs_Command, Timestamp, Transition, command_response}
 import tmt.app.configs.{Params, Assembly}
 
-case class Zmq(params: Params) extends App {
+object ZmqStub extends AppOf[ZmqStubInner] {
+  def parser = default
+}
+
+case class ZmqStubInner(params: Params) extends App {
 
   val assembly = new Assembly(params)
   import assembly._
@@ -32,8 +36,4 @@ case class Zmq(params: Params) extends App {
     runtime.shutdown()
   }
 
-}
-
-object ZmqApp extends AppOf[Zmq] {
-  def parser = default
 }

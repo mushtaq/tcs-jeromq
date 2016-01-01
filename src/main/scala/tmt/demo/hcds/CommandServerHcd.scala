@@ -8,7 +8,7 @@ import tmt.app.configs.Names
 import tmt.app.utils.ActorRuntime
 import tmt.demo.zeromq_drivers.ZmqClient
 
-class CommandHcd(zmqClient: ZmqClient) extends Actor {
+class CommandServerHcd(zmqClient: ZmqClient) extends Actor {
 
   import context.dispatcher
 
@@ -21,13 +21,13 @@ class CommandHcd(zmqClient: ZmqClient) extends Actor {
 }
 
 
-class CommandHcdSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
+class CommandServerHcdSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
 
   import actorRuntime._
 
   lazy val manager = system.actorOf(
     ClusterSingletonManager.props(
-      singletonProps = Props(new CommandHcd(zmqClient)),
+      singletonProps = Props(new CommandServerHcd(zmqClient)),
       terminationMessage = PoisonPill,
       settings = ClusterSingletonManagerSettings(system).withRole(Names.HcdServer)
     ),

@@ -4,7 +4,11 @@ import caseapp._
 import tcsstr2.Transition
 import tmt.app.configs.{Params, Assembly}
 
-case class Client(params: Params) extends App {
+object DemoApp extends AppOf[DemoAppInner] {
+  def parser = default
+}
+
+case class DemoAppInner(params: Params) extends App {
 
   val mcsHcdClient = new Assembly(params).commandsClient
 
@@ -15,8 +19,4 @@ case class Client(params: Params) extends App {
     Thread.sleep(1000)
   }
 
-}
-
-object ClientApp extends AppOf[Client] {
-  def parser = default
 }

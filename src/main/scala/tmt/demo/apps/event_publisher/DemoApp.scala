@@ -8,7 +8,11 @@ import tmt.app.configs.{Params, Names, Assembly}
 
 import scala.concurrent.duration.DurationInt
 
-case class Client(params: Params) extends App {
+object DemoApp extends AppOf[DemoAppInner] {
+  def parser = default
+}
+
+case class DemoAppInner(params: Params) extends App {
 
   val assembly = new Assembly(params)
   import assembly._
@@ -20,10 +24,6 @@ case class Client(params: Params) extends App {
       tcs_mcs_PositionDemand(az, el, Timestamp(System.currentTimeMillis()))
     }
 
-  publisherClient.publish(demands, Names.PositionDemands)
+  eventPublisher.publish(demands, Names.PositionDemands)
 
-}
-
-object ClientApp extends AppOf[Client] {
-  def parser = default
 }
