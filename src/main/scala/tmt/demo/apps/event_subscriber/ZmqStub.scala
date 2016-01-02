@@ -23,8 +23,12 @@ case class ZmqStubInner(params: Params) extends App {
 
   val driveStatuses = Source
     .tick(10.millis, 10.millis, ())
-    .map(_ => mcs_DriveStatus(time = Timestamp(System.currentTimeMillis())))
+    .map(_ => currentStatus)
 
+
+  def currentStatus: mcs_DriveStatus = {
+    mcs_DriveStatus(time = Timestamp(System.currentTimeMillis()))
+  }
 
   publisher
     .publish(driveStatuses)
