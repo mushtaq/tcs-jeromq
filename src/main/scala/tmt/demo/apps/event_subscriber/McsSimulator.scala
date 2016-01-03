@@ -1,12 +1,9 @@
 package tmt.demo.apps.event_subscriber
 
-import akka.stream.scaladsl.Source
 import caseapp._
 import tcsstr2._
-
-import tmt.app.configs.{Params, Assembly}
-
-import scala.concurrent.duration._
+import tmt.app.configs.{Assembly, Params}
+import tmt.app.utils.Data
 
 object McsSimulator extends AppOf[McsSimulatorInner] {
   def parser = default
@@ -21,17 +18,8 @@ case class McsSimulatorInner(params: Params) extends App {
     appSettings.mcsDriveStatusPort
   )
 
-  val driveStatuses = Source
-    .tick(10.millis, 10.millis, ())
-    .map(_ => currentStatus)
-
-
-  def currentStatus: mcs_DriveStatus = {
-    mcs_DriveStatus(time = Timestamp(System.currentTimeMillis()))
-  }
-
   publisher
-    .publish(driveStatuses)
+    .publish(Data.driveStatuses)
     .onComplete { x =>
       println(s"completed with value: $x")
       publisher.shutdown()

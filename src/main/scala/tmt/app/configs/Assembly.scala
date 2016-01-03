@@ -7,7 +7,6 @@ import tmt.demo.connectors.{McsToClusterFlow, ClusterToMcsFlow}
 import tmt.demo.hcd_drivers.{CommandClient, EventPublisher, EventSubscriber}
 import tmt.demo.hcd.HcdSingleton
 import tmt.demo.zeromq_drivers._
-import tmt.sample.SampleClient
 import tmt.app.utils.ActorRuntime
 
 class Assembly(params: Params) {
@@ -36,6 +35,4 @@ class Assembly(params: Params) {
   lazy val commandsClient = wire[CommandClient]
   lazy val eventPublisher = wire[EventPublisher]
   lazy val eventSubscriber = wire[EventSubscriber]
-
-  lazy val sampleClient = wire[SampleClient]
 }

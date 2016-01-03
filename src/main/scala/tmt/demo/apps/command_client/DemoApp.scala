@@ -10,10 +10,11 @@ object DemoApp extends AppOf[DemoAppInner] {
 
 case class DemoAppInner(params: Params) extends App {
 
-  val mcsHcdClient = new Assembly(params).commandsClient
+  val assembly = new Assembly(params)
+  import assembly._
 
   Iterator.from(1).foreach { _ =>
-    mcsHcdClient.lifecycle(Transition.STARTUP).onComplete(println)
+    commandsClient.lifecycle(Transition.STARTUP).onComplete(println)
     Thread.sleep(2000)
   }
 
