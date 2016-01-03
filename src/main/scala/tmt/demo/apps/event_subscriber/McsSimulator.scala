@@ -8,11 +8,11 @@ import tmt.app.configs.{Params, Assembly}
 
 import scala.concurrent.duration._
 
-object ZmqStub extends AppOf[ZmqStubInner] {
+object McsSimulator extends AppOf[McsSimulatorInner] {
   def parser = default
 }
 
-case class ZmqStubInner(params: Params) extends App {
+case class McsSimulatorInner(params: Params) extends App {
 
   val assembly = new Assembly(params)
   import assembly._

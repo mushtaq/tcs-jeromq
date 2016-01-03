@@ -6,11 +6,11 @@ import tcsstr2.command_response.ErrorState
 import tcsstr2.{Tcs_Command, Timestamp, Transition, command_response}
 import tmt.app.configs.{Params, Assembly}
 
-object ZmqStub extends AppOf[ZmqStubInner] {
+object McsSimulator extends AppOf[McsSimulatorInner] {
   def parser = default
 }
 
-case class ZmqStubInner(params: Params) extends App {
+case class McsSimulatorInner(params: Params) extends App {
 
   val assembly = new Assembly(params)
   import assembly._
