@@ -23,7 +23,7 @@ class ZmqPublisher[Msg <: GeneratedMessage](port: Int, runtime: ActorRuntime) {
       .mapAsync(1)(publishSingle)
       .runWith(Sink.ignore)
       .map { x =>
-        println(s"completed with value: $x")
+        println(s"ZmqPublisher completed with value: $x")
       }(system.dispatcher)
   }
 

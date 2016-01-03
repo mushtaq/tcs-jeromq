@@ -20,7 +20,7 @@ class ZmqSubscriber[Msg <: PbMessage.Of[Msg]](
   val address = s"tcp://${settings.mcsHostname}:$port"
 
   private val socket = zmqContext.socket(ZMQ.SUB)
-  println(s"Connecting to $address")
+  println(s"ZmqSubscriber connecting to $address")
   socket.connect(address)
   socket.subscribe(Array.empty)
 

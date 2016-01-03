@@ -14,7 +14,7 @@ class ZmqClient(settings: AppSettings, runtime: ActorRuntime) {
   val address = s"tcp://${settings.mcsHostname}:${settings.mcsCommandsPort}"
 
   private val socket = zmqContext.socket(ZMQ.REQ)
-  println(s"Connecting to server $address")
+  println(s"ZmqClient is connecting to server $address")
   socket.connect(address)
   private val ec = EC.singleThreadedEc()
 

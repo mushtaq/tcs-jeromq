@@ -13,7 +13,7 @@ case class DemoAppInner(params: Params) extends App {
   val mcsHcdClient = new Assembly(params).commandsClient
 
   Iterator.from(1).foreach { _ =>
-    mcsHcdClient.lifecycle(Transition.STARTUP)
+    mcsHcdClient.lifecycle(Transition.STARTUP).onComplete(println)
     Thread.sleep(2000)
   }
 

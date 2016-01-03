@@ -13,6 +13,6 @@ class CommandClient(actorRuntime: ActorRuntime, hcdSingleton: HcdSingleton) {
   def lifecycle(transition: Transition) = {
     val command = Tcs_Command(TcsMcsLifecycle(transition))
     println(s"***** client sending command: $command")
-    (hcdSingleton.proxy ? command).mapTo[command_response].onComplete(println)
+    (hcdSingleton.proxy ? command).mapTo[command_response]
   }
 }

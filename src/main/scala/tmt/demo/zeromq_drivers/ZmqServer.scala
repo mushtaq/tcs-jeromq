@@ -38,7 +38,7 @@ class ZmqServer(settings: AppSettings, runtime: ActorRuntime) {
 
     }
   }(ec).map { x =>
-    println(s"completed with value: $x")
+    println(s"ZmqServer completed with value: $x")
   }(global)
 
   def shutdown(): Unit = {
