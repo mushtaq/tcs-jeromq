@@ -1,12 +1,12 @@
-package tmt.demo.hcds
+package tmt.demo.connectors
 
 import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.pubsub.DistributedPubSubMediator.Publish
 import com.trueaccord.scalapb.GeneratedMessageCompanion
-import tmt.demo.zeromq_drivers.ZmqSubscriberFactory
 import tmt.app.utils.{ActorRuntime, PbMessage}
+import tmt.demo.zeromq_drivers.ZmqSubscriberFactory
 
-class EventPublisherHcd(actorRuntime: ActorRuntime, zmqSubscriberFactory: ZmqSubscriberFactory) {
+class McsToClusterFlow(actorRuntime: ActorRuntime, zmqSubscriberFactory: ZmqSubscriberFactory) {
   import actorRuntime._
 
   def connect[Msg <: PbMessage.Of[Msg]](

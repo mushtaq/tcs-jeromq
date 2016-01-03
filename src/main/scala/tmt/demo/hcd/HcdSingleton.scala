@@ -1,33 +1,30 @@
-package tmt.demo.hcds
+package tmt.demo.hcd
 
-import akka.actor.{PoisonPill, Props, Actor}
+import akka.actor.{PoisonPill, Props}
 import akka.cluster.singleton.{ClusterSingletonProxySettings, ClusterSingletonProxy, ClusterSingletonManagerSettings, ClusterSingletonManager}
-import akka.pattern.pipe
-import tcsstr2.{Tcs_Command, command_response}
-import tmt.app.configs.Names
+import tmt.app.configs.{Names, AppSettings}
 import tmt.app.utils.ActorRuntime
+import tmt.demo.connectors.{McsToClusterFlow, ClusterToMcsFlow}
 import tmt.demo.zeromq_drivers.ZmqClient
 
-class CommandServerHcd(zmqClient: ZmqClient) extends Actor {
-
-  import context.dispatcher
-
-  def receive = {
-    case command: Tcs_Command =>
-      println(s"***** mcs hcd server received $command from ${sender()}")
-      val result = zmqClient.query(command, command_response)
-      result pipeTo sender()
-  }
-}
-
-
-class CommandServerHcdSingleton(zmqClient: ZmqClient, actorRuntime: ActorRuntime) {
+class HcdSingleton(
+  zmqClient: ZmqClient,
+  clusterToMcsFlow: ClusterToMcsFlow,
+  mcsToClusterFlow: McsToClusterFlow,
+  appSettings: AppSettings,
+  actorRuntime: ActorRuntime
+) {
 
   import actorRuntime._
 
-  lazy val manager = system.actorOf(
+  lazy val start = system.actorOf(
     ClusterSingletonManager.props(
-      singletonProps = Props(new CommandServerHcd(zmqClient)),
+      singletonProps = Props(new HcdActor(
+        zmqClient,
+        clusterToMcsFlow,
+        mcsToClusterFlow,
+        appSettings
+      )),
       terminationMessage = PoisonPill,
       settings = ClusterSingletonManagerSettings(system).withRole(Names.HcdServer)
     ),
