@@ -22,7 +22,7 @@ class ZmqClient(settings: AppSettings, runtime: ActorRuntime) {
     request: Req,
     responseParser: GeneratedMessageCompanion[Res]
   ): Future[Res] = Future {
-    println(s"***** ZmqClient sending $request to $address")
+    println(s"***** ZmqClient sending $request to $address at ${System.currentTimeMillis()}")
     socket.send(request.toByteArray, 0)
     responseParser.parseFrom(socket.recv(0))
   }(ec)
