@@ -18,13 +18,13 @@ class HcdActor(
 
   override def preStart() = {
 
-    //start event subscriber hcd
+    //connection to push cluster tcs_mcs_PositionDemand events to mcs
     clusterToMcsFlow.connect[tcs_mcs_PositionDemand](
       subscriberTopic = Names.PositionDemands,
       publishingPort = appSettings.mcsPositionDemandPort
     )
 
-    //start event publishing hcd
+    //connection to push mcs mcs_DriveStatus events to cluster
     mcsToClusterFlow.connect(
       publishingTopic = Names.DriveStatus,
       subscriberPort = appSettings.mcsDriveStatusPort,
@@ -32,7 +32,7 @@ class HcdActor(
     )
   }
 
-  //command server hcd
+  //send tcs commands to mcs and reply back to sender
   def receive = {
     case command: Tcs_Command =>
       val result = zmqClient.query(command, command_response)
