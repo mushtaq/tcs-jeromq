@@ -3,7 +3,7 @@ package tmt.app.configs
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import tmt.app.library.ConfigLoader
-import tmt.demo.connectors.{McsToClusterFlow, ClusterToMcsFlow}
+import tmt.demo.connectors.{ZmqToAkkaFlow, AkkaToZmqFlow}
 import tmt.demo.hcd_drivers.{CommandClient, EventPublisher, EventSubscriber}
 import tmt.demo.hcd.HcdSingleton
 import tmt.demo.zeromq_drivers._
@@ -29,8 +29,8 @@ class Assembly(params: Params) {
   lazy val zmqSubscriberFactory = wire[ZmqSubscriberFactory]
 
   lazy val hcdSingleton = wire[HcdSingleton]
-  lazy val clusterToMcsFlow = wire[ClusterToMcsFlow]
-  lazy val mcsToClusterFlow = wire[McsToClusterFlow]
+  lazy val akkaToZmqFlow = wire[AkkaToZmqFlow]
+  lazy val zmqToAkkaFlow = wire[ZmqToAkkaFlow]
 
   lazy val commandsClient = wire[CommandClient]
   lazy val eventPublisher = wire[EventPublisher]

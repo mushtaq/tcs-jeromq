@@ -6,7 +6,7 @@ import com.trueaccord.scalapb.GeneratedMessageCompanion
 import tmt.app.utils.{ActorRuntime, PbMessage}
 import tmt.demo.zeromq_drivers.ZmqSubscriberFactory
 
-class McsToClusterFlow(actorRuntime: ActorRuntime, zmqSubscriberFactory: ZmqSubscriberFactory) {
+class ZmqToAkkaFlow(actorRuntime: ActorRuntime, zmqSubscriberFactory: ZmqSubscriberFactory) {
   import actorRuntime._
 
   def connect[Msg <: PbMessage.Of[Msg]](

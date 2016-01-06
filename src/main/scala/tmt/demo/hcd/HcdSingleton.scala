@@ -4,13 +4,13 @@ import akka.actor.{PoisonPill, Props}
 import akka.cluster.singleton.{ClusterSingletonProxySettings, ClusterSingletonProxy, ClusterSingletonManagerSettings, ClusterSingletonManager}
 import tmt.app.configs.{Names, AppSettings}
 import tmt.app.utils.ActorRuntime
-import tmt.demo.connectors.{McsToClusterFlow, ClusterToMcsFlow}
+import tmt.demo.connectors.{ZmqToAkkaFlow, AkkaToZmqFlow}
 import tmt.demo.zeromq_drivers.ZmqClient
 
 class HcdSingleton(
   zmqClient: ZmqClient,
-  clusterToMcsFlow: ClusterToMcsFlow,
-  mcsToClusterFlow: McsToClusterFlow,
+  akkaToZmqFlow: AkkaToZmqFlow,
+  zmqToAkkaFlow: ZmqToAkkaFlow,
   appSettings: AppSettings,
   actorRuntime: ActorRuntime
 ) {
@@ -21,8 +21,8 @@ class HcdSingleton(
     ClusterSingletonManager.props(
       singletonProps = Props(new HcdActor(
         zmqClient,
-        clusterToMcsFlow,
-        mcsToClusterFlow,
+        akkaToZmqFlow,
+        zmqToAkkaFlow,
         appSettings
       )),
       terminationMessage = PoisonPill,

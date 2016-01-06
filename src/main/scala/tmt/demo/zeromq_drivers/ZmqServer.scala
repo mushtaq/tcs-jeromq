@@ -2,7 +2,6 @@ package tmt.demo.zeromq_drivers
 
 import com.trueaccord.scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 import org.zeromq.ZMQ
-import sample.ErrorMsg
 import tmt.app.configs.AppSettings
 import tmt.app.utils.{ActorRuntime, EC, PbMessage}
 
@@ -33,7 +32,7 @@ class ZmqServer(settings: AppSettings, runtime: ActorRuntime) {
       } catch {
         case NonFatal(ex) =>
           ex.printStackTrace()
-          socket.send(ErrorMsg("11").toByteArray, 0)
+          socket.send("error".getBytes, 0)
       }
 
     }
