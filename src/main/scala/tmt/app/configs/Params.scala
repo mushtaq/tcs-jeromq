@@ -2,7 +2,7 @@ package tmt.app.configs
 
 case class Params(
   env: String = "dev",
-  port: Int = 2550,
+  port: Int = 2552,
   roles: List[String] = List.empty,
   system: String = "tcs"
 ) {
