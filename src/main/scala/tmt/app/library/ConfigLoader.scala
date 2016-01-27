@@ -19,11 +19,16 @@ class ConfigLoader(params: Params) {
 
   def binding = {
     val bindingConfig = ConfigFactory.empty()
-      .withPair("hostname", InetAddress.getLocalHost.getHostAddress)
+      .withPair("hostname", privateIp)
       .withPair("port", Integer.valueOf(params.port))
       .withPair("roles", params.roles.asJava)
 
     ConfigFactory.empty().withValue("binding", bindingConfig.root())
+  }
+
+  def privateIp = params.env match {
+    case "prod" => InetAddress.getLocalHost.getHostAddress
+    case _      => "127.0.0.1"
   }
 
 }
