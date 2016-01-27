@@ -6,6 +6,8 @@ version := "1.0"
 
 scalaVersion := "2.11.7"
 
+resolvers += Resolver.bintrayRepo("hseeberger", "maven")
+
 libraryDependencies ++= Seq(
   "org.zeromq" % "jeromq" % "0.3.5",
   "com.typesafe.akka" %% "akka-stream-experimental" % "2.0.1",
@@ -14,12 +16,10 @@ libraryDependencies ++= Seq(
   "com.softwaremill.macwire" %% "macros" % "2.2.2" % "provided",
   "com.softwaremill.macwire" %% "util" % "2.2.2",
   "com.github.alexarchambault" %% "case-app" % "0.3.0",
+  "de.heikoseeberger" %% "constructr-akka" % "0.8.2",
 
   "org.scalatest" %% "scalatest" % "2.2.5" % "test"
 )
-
-// Uncomment to use Akka
-//libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.3.11"
 
 ScalaPbPlugin.protobufSettings
 
