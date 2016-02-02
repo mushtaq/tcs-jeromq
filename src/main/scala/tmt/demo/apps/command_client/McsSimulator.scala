@@ -17,7 +17,7 @@ case class McsSimulatorInner(params: Params) extends App {
 
   zmqServer.start(Tcs_Command) { command =>
     command.msg match {
-      case TcsMcsLifecycle(Transition.STARTUP) =>
+      case TcsMcsLifecycle(Transition.STARTUP | Transition.REBOOT) =>
         println("done!!!!")
         command_response(
           ErrorState.OK,
