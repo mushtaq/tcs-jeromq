@@ -14,12 +14,12 @@ case class McsSimulatorInner(params: Params) extends App {
   val assembly = new Assembly(params)
   import assembly._
 
-  val publisher = zmqPublisherFactory.make[mcs_DriveStatus](
-    appSettings.mcsDriveStatusPort
+  val publisher = zmqPublisherFactory.make[mcs_Health](
+    appSettings.mcsHealthPort
   )
 
   publisher
-    .publish(Data.driveStatuses)
+    .publish(Data.healthEventStream)
     .onComplete { x =>
       println(s"completed with value: $x")
       publisher.shutdown()

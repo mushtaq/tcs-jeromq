@@ -14,7 +14,7 @@ case class DemoAppInner(params: Params) extends App {
   val assembly = new Assembly(params)
   import assembly._
 
-  val continuousDemands = Source.repeat(()).flatMapConcat(_ => Data.demands)
+  val continuousDemands = Source.repeat(()).flatMapConcat(_ => Data.demandStream)
 
   eventPublisher.publish(continuousDemands, Names.PositionDemands)
 

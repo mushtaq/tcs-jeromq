@@ -15,7 +15,7 @@ case class DemoAppInner(params: Params) extends App {
 
   Iterator.from(1).foreach { _ =>
     commandsClient.lifecycle(Transition.STARTUP).onComplete(println)
-    Thread.sleep(2000)
+    Thread.sleep(5000)
   }
 
 }

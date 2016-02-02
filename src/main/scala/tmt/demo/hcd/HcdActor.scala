@@ -2,7 +2,7 @@ package tmt.demo.hcd
 
 import akka.actor.Actor
 import akka.pattern.pipe
-import tcsstr2.{Tcs_Command, command_response, mcs_DriveStatus, tcs_mcs_PositionDemand}
+import tcsstr2._
 import tmt.app.configs.{AppSettings, Names}
 import tmt.demo.connectors.{ZmqToAkkaFlow, AkkaToZmqFlow}
 import tmt.demo.zeromq_drivers.ZmqClient
@@ -24,11 +24,11 @@ class HcdActor(
       publishingPort = appSettings.mcsPositionDemandPort
     )
 
-    //connection to push mcs mcs_DriveStatus events to cluster
+    //connection to push mcs mcs_Health events to cluster
     zmqToAkkaFlow.connect(
-      publishingTopic = Names.DriveStatus,
-      subscriberPort = appSettings.mcsDriveStatusPort,
-      responseParser = mcs_DriveStatus
+      publishingTopic = Names.Health,
+      subscriberPort = appSettings.mcsHealthPort,
+      responseParser = mcs_Health
     )
   }
 
@@ -39,4 +39,3 @@ class HcdActor(
       result pipeTo sender()
   }
 }
-
