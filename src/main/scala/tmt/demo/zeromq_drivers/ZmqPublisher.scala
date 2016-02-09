@@ -18,7 +18,7 @@ class ZmqPublisher[Msg <: GeneratedMessage](port: Int, runtime: ActorRuntime) {
 
   private val ec = EC.singleThreadedEc()
 
-  def publish(messages: Source[Msg, Any]) = {
+  def publish(messages: Source[Msg, Any]): Future[Unit] = {
     messages
       .mapAsync(1)(publishSingle)
       .runWith(Sink.ignore)
